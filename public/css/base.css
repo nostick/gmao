@@ -39,3 +39,8 @@ a.nounderline:link
     color:#FFFFFF;
     background-color:#ac2925;
 }
+
+.header-table{
+    background-color: #ac2925;
+    color: #FFFFFF;
+}
