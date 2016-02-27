@@ -1,0 +1,41 @@
+a:hover h4{
+    color: #880000;
+}
+
+a.nounderline:link
+{
+    text-decoration:none;
+}
+
+.thumbnail a > img{
+    height: 160px;
+}
+
+.circulo {
+    width: 150px;
+    background: black;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+}
+
+.circulo1 {
+    width: 250px;
+    background: black;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+}
+
+#description,#codification,#maintenance,#items{
+    color: #880000;
+}
+
+.nav-pills > li > a{
+    color: #ac2925;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color:#FFFFFF;
+    background-color:#ac2925;
+}
