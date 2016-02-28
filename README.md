@@ -1,5 +1,5 @@
 #Proyecto Gmao
-Proyecto de tesis de la universidad de los antes sobre Ingenieria Mecanica de Mantenimientos
+Proyecto de tesis de la Universidad de Los Andes sobre Ingenieria Mecanica de Mantenimientos
 
 # Laravel PHP Framework
 
