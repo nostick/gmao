@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{url('css/footer.css')}}">
     <link rel="stylesheet" href="{{url('css/base.css')}}">
     <link href='https://fonts.googleapis.com/css?family=Oswald:700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
 
     <style>
@@ -39,7 +40,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="{{url('js/sidebar.js')}}"></script>
-
+    @yield('extrajs')
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
 </html>

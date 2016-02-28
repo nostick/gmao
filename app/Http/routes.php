@@ -35,7 +35,10 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/home', 'HomeController@index');
     Route::get('/equipment', 'EquipmentController@index');
+
+    Route::resource('equipment','EquipmentController');
+    Route::resource('equipment/maintenance','MaintenanceController');
 });
 
-Route::resource('equipment','EquipmentController');
+
 

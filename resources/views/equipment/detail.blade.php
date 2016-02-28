@@ -118,16 +118,27 @@
                                         <th>Actividad</th>
                                         <th>Descripción</th>
                                         <th>Frecuencia</th>
+                                        <th>Opciones </th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <th scope="row">{{$equipment->codification->ubication}}</th>
-                                        <td>{{$equipment->codification->area}}</td>
-                                        <td>{{$equipment->name}}</td>
-                                    </tr>
+                                    @foreach($equipment->maintenance as $maintenance)
+                                        <tr>
+                                            <th scope="row">{{$maintenance->activity}}</th>
+                                            <td width="520">{{$maintenance->description}}</td>
+                                            <td>{{$maintenance->frecuency}}</td>
+                                            <td>
+                                                <a href="{{url('equipment/maintenance/'.$maintenance->id.'/edit')}}" type="button" class="btn btn-primary btn-sm">Editar</a>
+                                                <a href="#" type="button" class="btn btn-danger btn-sm deleteuser">Eliminar</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
+
+                                <a href="{{url('equipment/maintenance/create')}}" type="button" class="btn btn-danger btn-lg">Crear</a>
+                                <a href="{{url('equipment/maintenance/'.$maintenance->id.'/edit')}}" type="button" class="btn btn-danger btn-lg">Imprimir</a>
+
                              </div>
                             <!--Fin de Mantenimientos de Equipos-->
 
@@ -140,9 +151,46 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="example-modal">
+                    <div id="modal_delete" class="modal modal-danger">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    <h4 class="modal-title">Eliminar</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Desea eliminar el mantenimiento?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancelar</button>
+                                    <button id="deletebutton" type="button" class="btn btn-outline">Aceptar</button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                <form id="form_delete" method="POST" action="{{url('equipment/maintenance/'.$maintenance->id)}}">
+                    <input name="_method" type="hidden" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                </form>
             </div>
         </div>
     </div>
 
     <br><br><br><br><br><br><br><br>
+@endsection
+
+@section('extrajs')
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.deleteuser', function () {
+                $('#form_delete').attr('action', $(this).attr('rel'));
+                $('#modal_delete').modal('show');
+            });
+            $('#deletebutton').on('click', function () {
+                $('#form_delete').submit();
+            });
+        })
+    </script>
 @endsection
