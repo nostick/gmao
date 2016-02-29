@@ -27,7 +27,8 @@ a.nounderline:link
     border-radius: 50px;
 }
 
-#description,#codification,#maintenance,#items{
+#description,#codification,#maintenance,#items, #activity, #frecuency, #equipment_id, #type, #model, #brand, #quantity,
+#location,#observation{
     color: #880000;
 }
 

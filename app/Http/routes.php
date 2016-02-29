@@ -34,10 +34,18 @@ Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
     Route::get('/home', 'HomeController@index');
-    Route::get('/equipment', 'EquipmentController@index');
 
     Route::resource('equipment','EquipmentController');
+
+
+    Route::get('/equipment/maintenance/excel/{id}',['as' => 'equipment/maintenance', 'uses' =>'MaintenanceController@excel']);
     Route::resource('equipment/maintenance','MaintenanceController');
+
+    Route::get('/equipment/item/excel/{id}',['as' => 'equipment/item', 'uses' =>'ItemController@excel']);
+    Route::resource('equipment/item','ItemController');
+
+    Route::get('/contract_services/excel/{id}',['as' => 'contract_services', 'uses' =>'ContractServiceController@excel']);
+    Route::resource('contract_services','ContractServiceController');
 });
 
 

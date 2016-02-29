@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Item;
 use App\Equipment;
-use App\Maintenance;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 
-class MaintenanceController extends Controller
+class ItemController extends Controller
 {
-
     public function create()
     {
         $equipments = Equipment::all();
-        return view('equipment.maintenance.create')->with('equipments',$equipments);
+        return view('equipment.item.create')->with('equipments',$equipments);
     }
 
     /**
@@ -27,17 +25,12 @@ class MaintenanceController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, Maintenance::$rules);
+        $this->validate($request, Item::$rules);
 
+        $item = Item::create($request->all());
 
-        if(!maintenance::find($request['activity'])) {
-            $maintenance = Maintenance::create($request->all());
+        return redirect()->route('equipment.index')->with('message', '<div class="alert alert-success" style="margin-top:300px">Componente de Inventario creado con Éxito</div>');
 
-
-            return redirect()->route('equipment.index')->with('message', '<div class="alert alert-success" style="margin-top:300px">Mantenimiento creado con Éxito</div>');
-        }else{
-            return redirect()->route('equipment.maintenance.create')->with('message', '<div class="alert alert-danger" style="margin-left:300px">La actividad que desea agregar ya existe</div>');
-        }
     }
 
     /**
@@ -48,9 +41,9 @@ class MaintenanceController extends Controller
      */
     public function show($id)
     {
-        $maintenance = Maintenance::find($id);
+        $item = Item::find($id);
 
-        return view('maintenance.show')->with('maintenance',$maintenance);
+        return view('item.show')->with('item',$item);
     }
 
     /**
@@ -62,11 +55,11 @@ class MaintenanceController extends Controller
     public function edit($id)
     {
 
-        $maintenance = Maintenance::find($id);
+        $item = Item::find($id);
         $equipments = Equipment::all();
 
-        return view('equipment.maintenance.edit')
-            ->with('maintenance',$maintenance)
+        return view('equipment.item.edit')
+            ->with('item',$item)
             ->with('equipments',$equipments);
     }
 
@@ -79,15 +72,15 @@ class MaintenanceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $maintenance = Maintenance::findOrFail($id);
+        $item = Item::findOrFail($id);
         $data = $request->all();
-        $this->validate($request, Maintenance::$rules2);
+        $this->validate($request, Item::$rules);
 
-        $maintenance->update($data);
+        $item->update($data);
 
         return redirect()
             ->route('equipment.index')
-            ->with('message', '<div class="alert alert-success" style="margin-top:300px;margin-left:300px">Mantenimiento editado con Éxito</div>');
+            ->with('message', '<div class="alert alert-success" style="margin-top:300px;margin-left:300px">Componente de Inventario editado con Éxito</div>');
     }
 
     /**
@@ -98,21 +91,22 @@ class MaintenanceController extends Controller
      */
     public function destroy($id)
     {
-        $maintenance = Maintenance::find($id);
+        $item = Item::find($id);
 
-        $maintenance->delete();
+        $item->delete();
 
 
         return redirect()->route('equipment.index')->with('message', '<div class="alert alert-success" style="margin-top:150px">Mantenimiento eliminado con Éxito</div>');
     }
 
     public function excel($id){
+
         $equipment = Equipment::find($id);
 
         Excel::create('Mantenimientos', function($excel) use($equipment) {
 
             // Set the title
-            $excel->setTitle('Mantenimientos');
+            $excel->setTitle('Componentes de Inventario');
 
             // Chain the setters
             $excel->setCreator('Maatwebsite')
@@ -121,25 +115,28 @@ class MaintenanceController extends Controller
             // Call them separately
             $excel->setDescription('A demonstration to change the file properties');
 
-            $excel->sheet('Mantenimientos', function($sheet) use($equipment) {
+            $excel->sheet('Inventario', function($sheet) use($equipment) {
 
 
-                $sheet->mergeCells('A1:C1');
+                $sheet->mergeCells('A1:E1');
 
                 $sheet->setHeight(array(
                     1     =>  25,
                     3     =>  15
                 ));
 
-                $sheet->row(1,array('Tabla de Mantenimientos de '.$equipment->name));
+                $sheet->row(1,array('Tabla de Componentes de Inventario de '.$equipment->name));
 
                 $sheet->setWidth(array(
-                    'A'     =>  15,
-                    'B'     =>  30,
-                    'C'     =>  15
+                    'A'     =>  30,
+                    'B'     =>  15,
+                    'C'     =>  15,
+                    'D'     =>  15,
+                    'E'     =>  15,
+                    'F'     =>  15
                 ));
 
-                $sheet->cells('A', function($cells) {
+                $sheet->cells('B', function($cells) {
 
                     $cells->setAlignment('center');
 
@@ -156,8 +153,18 @@ class MaintenanceController extends Controller
                     $cells->setAlignment('center');
 
                 });
+                $sheet->cells('D', function($cells) {
 
-                $sheet->cells('A3:C3', function($cells) {
+                    $cells->setAlignment('center');
+
+                });
+                $sheet->cells('E', function($cells) {
+
+                    $cells->setAlignment('center');
+
+                });
+
+                $sheet->cells('A3:E3', function($cells) {
                     $cells->setBackground('#880000');
                     $cells->setFontColor('#FFFFFF');
 
@@ -168,16 +175,18 @@ class MaintenanceController extends Controller
                 ));
 
                 $sheet->row(3,array(
-                   'Actividad', 'Descripcion','Frecuencia'
+                    'Descripción', 'Tipo','Modelo','Marca','Cantidad'
                 ));
 
                 $init = 4;
-                foreach($equipment->maintenance as $maintenance){
+                foreach($equipment->item as $item){
                     $sheet->setHeight($init, 15);
                     $sheet->row($init,array(
-                       $maintenance->activity,
-                       $maintenance->description,
-                       $maintenance->frecuency
+                        $item->description,
+                        $item->type,
+                        $item->model,
+                        $item->brand,
+                        $item->quantity
                     ));
                     $init++;
                 }

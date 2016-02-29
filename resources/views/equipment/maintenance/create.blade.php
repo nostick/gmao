@@ -51,10 +51,10 @@
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary" aria-label="Left Align">
-                        <span class="ion-android-add-circle" >  Crear</span>
+                        <span class="ion-ios-plus-outline" >  Crear</span>
                     </button>
                     <a href="{{ URL::previous() }}" type="button" class="btn btn-danger">
-                        <span class="ion-android-add-circle" >  Cancelar</span>
+                        <span class="ion-ios-undo" >  Cancelar</span>
                     </a>
 
                 </form>

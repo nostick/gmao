@@ -52,8 +52,11 @@
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary" aria-label="Left Align">
-                        <span class="glyphicon glyphicon-plus" >Editar</span>
+                        <span class="ion-edit" >  Editar</span>
                     </button>
+                    <a href="{{ URL::previous() }}" type="button" class="btn btn-danger">
+                        <span class="ion-ios-undo" >  Cancelar</span>
+                    </a>
 
                 </form>
                 <br><br><br><br><br><br><br>

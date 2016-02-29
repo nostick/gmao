@@ -7,7 +7,7 @@
                     <a href="{{url('/equipment')}}">Equipos</a>
                 </li>
                 <li>
-                    <a href="#">Servicios de Contratacion</a>
+                    <a href="{{url('/contract_services')}}">Servicios de Contratacion</a>
                 </li>
                 <li>
                     <a href="#">Registro de mantenimiento de Equipos</a>
