@@ -11,6 +11,12 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
+        if(env('DB_DRIVER') == 'mysql')
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        if(env('DB_DRIVER') == 'mysql')
+            DB::table('roles')->truncate();
+
         DB::table('roles')->insert(array(
             0 => array(
                 'name' => 'SuperAdmin',
@@ -41,5 +47,8 @@ class RolesTableSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:m:s')
             )
         ));
+
+        if(env('DB_DRIVER') == 'mysql')
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

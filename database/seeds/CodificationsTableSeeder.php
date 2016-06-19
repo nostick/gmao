@@ -11,6 +11,13 @@ class CodificationsTableSeeder extends Seeder
      */
     public function run()
     {
+        if(env('DB_DRIVER') == 'mysql')
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        if(env('DB_DRIVER') == 'mysql')
+            DB::table('codifications')->truncate();
+
+
         DB::table('codifications')->insert(array(
             0 => array(
                 'ubication' => 'Edificio, Patio y Talleres',
@@ -58,5 +65,8 @@ class CodificationsTableSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:m:s')
             )
         ));
+        
+        if(env('DB_DRIVER') == 'mysql')
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

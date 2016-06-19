@@ -11,6 +11,12 @@ class PermissionTableSeeder extends Seeder
      */
     public function run()
     {
+        if(env('DB_DRIVER') == 'mysql')
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        if(env('DB_DRIVER') == 'mysql')
+            DB::table('permissions')->truncate();
+
         DB::table('permissions')->insert(array(
             0 => array(
                 'name' => 'Modulo 1',
@@ -43,5 +49,8 @@ class PermissionTableSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:m:s')
             )
         ));
+
+        if(env('DB_DRIVER') == 'mysql')
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

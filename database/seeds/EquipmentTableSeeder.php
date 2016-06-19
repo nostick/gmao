@@ -11,6 +11,14 @@ class EquipmentTableSeeder extends Seeder
      */
     public function run()
     {
+
+        if(env('DB_DRIVER') == 'mysql')
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        if(env('DB_DRIVER') == 'mysql')
+            DB::table('equipments')->truncate();
+
+
         DB::table('equipments')->insert(array(
             0 => array(
                 'name' => 'TUNEL DE LAVADO AUTOMÁTICO',
@@ -43,5 +51,8 @@ class EquipmentTableSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:m:s')
             )
         ));
+
+        if(env('DB_DRIVER') == 'mysql')
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

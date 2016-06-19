@@ -11,6 +11,13 @@ class ContractServicesSeed extends Seeder
      */
     public function run()
     {
+        if(env('DB_DRIVER') == 'mysql')
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        if(env('DB_DRIVER') == 'mysql')
+            DB::table('contract_services')->truncate();
+
+
         DB::table('contract_services')->insert(array(
             0 => array(
                 'description' => 'MANTENIMIENTO DEL TANQUE DE COMBUSTIBLE DE LA MAQUINA DISPENSADORA DE DIESEL. ESTE MANTENIMIENTO SE REFIRE AL LAVADO DEL TANQUE Y CAMBIO DE FILTROS DEL TANQUE Y DE LA MAQUINA DISPENSADORA.',
@@ -25,5 +32,8 @@ class ContractServicesSeed extends Seeder
                 'updated_at' => date('Y-m-d H:m:s')
             )
         ));
+
+        if(env('DB_DRIVER') == 'mysql')
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

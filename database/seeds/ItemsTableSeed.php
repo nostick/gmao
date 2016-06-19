@@ -11,6 +11,14 @@ class ItemsTableSeed extends Seeder
      */
     public function run()
     {
+
+        if(env('DB_DRIVER') == 'mysql')
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        if(env('DB_DRIVER') == 'mysql')
+            DB::table('items')->truncate();
+
+
         DB::table('items')->insert(array(
             0 => array(
                 'description' => 'BOMBA DE BAJA PRESION EN ACERO INOXIDABLE: HMAX 68M, Q= 5.7m³/h, PMAX= 16 bar, TMAX= 120ºC, N= 2900 1/MIN',
@@ -423,5 +431,8 @@ class ItemsTableSeed extends Seeder
                 'updated_at' => date('Y-m-d H:m:s')
             )
         ));
+
+        if(env('DB_DRIVER') == 'mysql')
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

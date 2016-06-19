@@ -11,6 +11,12 @@ class MaintenacesTableSeeder extends Seeder
      */
     public function run()
     {
+        if(env('DB_DRIVER') == 'mysql')
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        if(env('DB_DRIVER') == 'mysql')
+            DB::table('maintenances')->truncate();
+
         DB::table('maintenances')->insert(array(
             0 => array(
                 'activity' => 'TLA-1.0',
@@ -389,5 +395,8 @@ class MaintenacesTableSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:m:s')
             )
         ));
+
+        if(env('DB_DRIVER') == 'mysql')
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }
