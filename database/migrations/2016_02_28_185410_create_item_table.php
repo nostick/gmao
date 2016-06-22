@@ -32,8 +32,8 @@ class CreateItemTable extends Migration
      */
     public function down()
     {
-        Schema::table('items', function (Blueprint $table) {
-            //
-        });
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::dropIfExists('items');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

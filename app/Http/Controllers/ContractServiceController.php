@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\ContractService;
-use App\Equipment;
+use App\Models\ContractService;
+use App\Models\Equipment;
 use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Http\Request;

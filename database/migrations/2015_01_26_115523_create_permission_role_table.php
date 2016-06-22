@@ -29,6 +29,8 @@ class CreatePermissionRoleTable extends Migration
      */
     public function down()
     {
-        Schema::drop('permission_role');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::dropIfExists('permission_role');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

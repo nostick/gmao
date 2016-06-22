@@ -28,7 +28,15 @@ a.nounderline:link
 }
 
 #description,#codification,#maintenance,#items, #activity, #frecuency, #equipment_id, #type, #model, #brand, #quantity,
-#location,#observation{
+#location,#observation, a{
+    color: #880000;
+}
+
+.panel-group > a:hover{
+    color: #aa1111;
+}
+
+.panel-group > a:visited,a:focus{
     color: #880000;
 }
 

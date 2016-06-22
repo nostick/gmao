@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +11,6 @@ class Codification extends Model
     protected $fillable = ['ubication','area','code','quantity','equipment_id','created_at','updated_at'];
 
     public function equipment(){
-        return $this->belongsTo('App\Equipment');
+        return $this->belongsTo('App\Models\Equipment');
     }
 }

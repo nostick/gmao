@@ -30,8 +30,8 @@ class CreateMaintenancesTable extends Migration
      */
     public function down()
     {
-        Schema::table('maintenances', function (Blueprint $table) {
-            //
-        });
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::dropIfExists('maintenances');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

@@ -29,6 +29,8 @@ class CreateSessionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('sessions');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::dropIfExists('sessions');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

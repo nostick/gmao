@@ -31,8 +31,8 @@ class CreateCodificationsTable extends Migration
      */
     public function down()
     {
-        Schema::table('codifications', function (Blueprint $table) {
-            //
-        });
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::dropIfExists('codifications');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

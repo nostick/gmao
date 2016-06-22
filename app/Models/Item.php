@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,7 +19,7 @@ class Item extends Model
     );
 
     public function equipment(){
-        return $this->belongsTo('App\Equipment');
+        return $this->belongsTo('App\Models\Equipment');
     }
 
 }

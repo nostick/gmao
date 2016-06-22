@@ -27,6 +27,8 @@ class CreateEquipmentsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('equipments');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::dropIfExists('equipments');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

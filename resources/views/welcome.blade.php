@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    GMAO
+@endsection
+
 @section('content')
 <div class="container">
     <img class="center-block" src="{{url('img/Tope.jpg')}}" alt="Header" width="50%"/>

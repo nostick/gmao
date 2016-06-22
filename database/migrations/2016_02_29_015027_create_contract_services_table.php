@@ -34,8 +34,8 @@ class CreateContractServicesTable extends Migration
      */
     public function down()
     {
-        Schema::table('contract_services', function (Blueprint $table) {
-            //
-        });
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::dropIfExists('contract_services');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
