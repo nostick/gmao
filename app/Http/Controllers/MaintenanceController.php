@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Equipment;
 use App\Models\Maintenance;
+use App\Models\System;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -15,6 +16,14 @@ class MaintenanceController extends Controller
 
     public function create()
     {
+
+        $equipments = Equipment::all();
+        return view('equipment.maintenance.create')->with('equipments',$equipments);
+    }
+
+    public function createBase()
+    {
+
         $equipments = Equipment::all();
         return view('equipment.maintenance.create')->with('equipments',$equipments);
     }

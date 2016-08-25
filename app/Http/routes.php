@@ -39,13 +39,23 @@ Route::group(['middleware' => 'web'], function () {
 
 
     Route::get('/equipment/maintenance/excel/{id}',['as' => 'equipment/maintenance', 'uses' =>'MaintenanceController@excel']);
-    Route::resource('equipment/maintenance','MaintenanceController');
+    Route::get('/equipment/maintenance/createBase/{id}',['as' => 'equipment/maintenance', 'uses' =>'MaintenanceController@createBase']);
+    Route::resource('equipment/maintenance'    ,'MaintenanceController');
 
-    Route::get('/equipment/item/excel/{id}',['as' => 'equipment/item', 'uses' =>'ItemController@excel']);
-    Route::resource('equipment/item','ItemController');
+    Route::get('/equipment/item/excel/{id}'    ,['as' => 'equipment/item', 'uses' =>'ItemController@excel']);
+    Route::resource('equipment/item'           ,'ItemController');
 
-    Route::get('/contract_services/excel/{id}',['as' => 'contract_services', 'uses' =>'ContractServiceController@excel']);
-    Route::resource('contract_services','ContractServiceController');
+    Route::get('/contract_services/excel/{id}' ,['as' => 'contract_services', 'uses' =>'ContractServiceController@excel']);
+    Route::resource('contract_services'        ,'ContractServiceController');
+
+    Route::post('changeSystem'                 ,'RegisterController@changeSystem')->name('register.change.system');
+    Route::post('changeSubSystem'              ,'RegisterController@changeSubSystem')->name('register.change.subsystem');
+    Route::post('searchBySystem'               ,'RegisterController@searchBySystem')->name('register.search.bysystem');
+    Route::post('searchBySubSystem'            ,'RegisterController@searchBySubSystem')->name('register.search.bysubsystem');
+    Route::get('register/corrective'           ,'RegisterController@RegisterCorrective')->name('register.corrective');
+    Route::post('register/corrective/store'    ,'RegisterController@StoreCorrective')->name('register.corrective.store');
+    Route::resource('register'                 ,'RegisterController');
+
 });
 
 

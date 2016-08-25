@@ -2,6 +2,15 @@ a:hover h4{
     color: #880000;
 }
 
+.color1{
+    color: #880000;
+}
+
+.logo{
+    font-size: 50px;
+}
+
+
 a.nounderline:link
 {
     text-decoration:none;
@@ -28,7 +37,7 @@ a.nounderline:link
 }
 
 #description,#codification,#maintenance,#items, #activity, #frecuency, #equipment_id, #type, #model, #brand, #quantity,
-#location,#observation, a{
+#location,#observation,#system_id,#subsystem_id,#maintenance_id, a{
     color: #880000;
 }
 
@@ -52,4 +61,9 @@ a.nounderline:link
 .header-table{
     background-color: #ac2925;
     color: #FFFFFF;
+}
+
+.color1 a:hover{
+    color:#ac2925 !important;
+    text-decoration:none;
 }

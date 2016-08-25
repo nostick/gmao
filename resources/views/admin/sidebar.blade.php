@@ -10,7 +10,7 @@
                     <a href="{{url('/contract_services')}}">Servicios de Contratacion</a>
                 </li>
                 <li>
-                    <a href="#">Registro de mantenimiento de Equipos</a>
+                    <a href="{{url('register')}}">Registro de mantenimiento de Equipos</a>
                 </li>
                 <li>
                     <a href="#">Indice de mantemiento</a>

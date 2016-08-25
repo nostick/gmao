@@ -14,5 +14,13 @@ class System extends Model
         return $this->hasMany('App\Models\SubSystem');
     }
 
+    public function maintenances(){
+        return $this->hasMany('App\Models\Maintenance');
+    }
+
+    public function equipment(){
+        return $this->belongsTo('App\Models\Equipment');
+    }
+
 
 }

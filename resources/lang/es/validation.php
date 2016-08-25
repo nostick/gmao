@@ -98,5 +98,13 @@ return [
     | of "email". This simply helps us make messages a little cleaner.
     |
     */
-    'attributes' => [],
+    'attributes' => ['user_id'        =>   'Usuario',
+                     'date1'          =>   'Fecha Inicial',
+                     'date2'          =>   'Fecha Final',
+                     'time1'          =>   'Hora Inicial',
+                     'time2'          =>   'Hora Final',
+                     'system_id'      =>   'Sistema',
+                     'maintenance_id' =>   'Mantenimiento',
+                     'equipment_id'   =>   'Equipo'
+    ],
 ];
