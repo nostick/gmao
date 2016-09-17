@@ -143,7 +143,7 @@ class RegisterController extends Controller
             $corrective->status           = false;
             $corrective->save();
         }
-        return view('register.index')->with('state','preventive');
+        return view('register.index')->with('state','preventive'); 
     }
 
     public function changeSystem(Request $request){
