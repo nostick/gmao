@@ -10,7 +10,7 @@
         <div class="col-lg-11 col-md-offset-2">
             <!-- Container (Services Section) -->
             <div class="container-fluid">
-                <h2 class="color1 text-center">Registro de Mantenimiento Correctivo</h2>
+                <h2 class="color1 text-center">Registro de Mantenimiento Preventivo</h2>
 
                 @if (count($errors) > 0)
                     <div class="alert alert-danger">
@@ -22,7 +22,7 @@
                     </div>
                 @endif
 
-                <form action="{{route('register.corrective.store')}}" method="POST" id="correctiveReparation">
+                <form action="{{route('register.preventive.store')}}" method="POST" id="preventiveReparation">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
                     <div class="form-group">
@@ -85,13 +85,15 @@
                         <div class="col-lg-12">
                             <br>
                             <label for="maintenance">Mantenimiento</label>
-                            <input type="text" name="maintenance" id="maintenance" placeholder="Mantenimiento" class="form-control">
+                            <select name="maintenance_id" id="maintenance_id" disabled="disabled" class="form-control">
+                                <option value="">Mantenimiento</option>
+                            </select>
                             <br><br>
                         </div>
 
                     </div>
                     <div class="col-lg-12">
-                    <button type="submit" form="correctiveReparation" value="Registrar" class="btn btn-danger btn-lg"> Registrar <span class="ion-ios-plus-outline"></span></button>
+                    <button type="submit" form="preventiveReparation" value="Registrar" class="btn btn-danger btn-lg"> Registrar <span class="ion-ios-plus-outline"></span></button>
                     </div>
                 </form>
 
@@ -104,6 +106,6 @@
 @endsection
 
 @section('extrajs')
-    @include('register.scripts.form')
+    @include('register.scripts.preventiveForm')
 @endsection
 

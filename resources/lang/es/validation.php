@@ -105,6 +105,7 @@ return [
                      'time2'          =>   'Hora Final',
                      'system_id'      =>   'Sistema',
                      'maintenance_id' =>   'Mantenimiento',
-                     'equipment_id'   =>   'Equipo'
+                     'equipment_id'   =>   'Equipo',
+                     'maintenance'    =>   'Mantenimiento'
     ],
 ];

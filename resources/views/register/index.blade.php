@@ -24,11 +24,6 @@
                     </div>
                 @endif
 
-                @if(isset($message))
-                    <div class="alert alert-success">
-                        {{$message}}
-                    </div>
-                @endif
                 <div class="row color1">
                     <div class="col-sm-6">
                         <a href="{{route('register.corrective')}}">
@@ -48,7 +43,7 @@
                 <br><br>
                 <div class="row color1">
                     <div class="col-sm-6">
-                        <a href="#">
+                        <a href="{{route('register.preventive')}}">
                             <span class="glyphicon glyphicon-wrench logo"></span>
                             <h3>Mantenimiento Preventivo</h3>
                             <p>Registro de actividad de mantenimiento preventivo</p>
@@ -67,4 +62,31 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('extrajs')
+    <script>
+        $( document).ready( function(){
+            //Alerts Message
+            var state = '{{$state}}';
+            switch (state){
+                case 'corrective':
+                    swal("Guardado!", "El registro de mantenimiento correctivo ha sido guardado", "success");
+                    break;
+
+                case 'preventive':
+                    swal("Guardado!", "El registro de mantenimiento preventivo ha sido guardado", "success");
+                    break;
+
+                case 'ending':
+                    swal("Guardado!", "Mantenimiento finalizado", "success");
+                    break;
+
+                case 'fault':
+                    swal("Guardado!", "El registro de averia ha sido guardado", "success");
+                    break;
+            }
+
+        });
+    </script>
 @endsection

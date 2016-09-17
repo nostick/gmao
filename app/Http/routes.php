@@ -53,7 +53,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('searchBySystem'               ,'RegisterController@searchBySystem')->name('register.search.bysystem');
     Route::post('searchBySubSystem'            ,'RegisterController@searchBySubSystem')->name('register.search.bysubsystem');
     Route::get('register/corrective'           ,'RegisterController@RegisterCorrective')->name('register.corrective');
+    Route::get('register/preventive'           ,'RegisterController@RegisterPreventive')->name('register.preventive');
     Route::post('register/corrective/store'    ,'RegisterController@StoreCorrective')->name('register.corrective.store');
+    Route::post('register/preventive/store'    ,'RegisterController@StorePreventive')->name('register.preventive.store');
     Route::resource('register'                 ,'RegisterController');
 
 });
