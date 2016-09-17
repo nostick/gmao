@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e3287f9-7c14-48d4-98da-5a473f4e9390" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/RegisterController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/RegisterController.php" />
     </list>
     <ignored path="MariaJose.iws" />
@@ -38,13 +37,13 @@
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegisterController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="353">
-              <caret line="145" column="67" selection-start-line="145" selection-start-column="67" selection-end-line="145" selection-end-column="67" />
+              <caret line="145" column="66" selection-start-line="145" selection-start-column="66" selection-end-line="145" selection-end-column="66" />
               <folding>
                 <element signature="e#40#76#0#PHP" expanded="true" />
-                <element signature="e#5520#5738#0#PHP" expanded="false" />
-                <element signature="e#5744#6122#0#PHP" expanded="false" />
-                <element signature="e#6128#6309#0#PHP" expanded="false" />
-                <element signature="e#6315#6503#0#PHP" expanded="false" />
+                <element signature="e#5519#5737#0#PHP" expanded="false" />
+                <element signature="e#5743#6121#0#PHP" expanded="false" />
+                <element signature="e#6127#6308#0#PHP" expanded="false" />
+                <element signature="e#6314#6502#0#PHP" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -553,12 +552,12 @@
       <workItem from="1470422061001" duration="162000" />
       <workItem from="1472080734007" duration="24634000" />
       <workItem from="1473965435844" duration="502000" />
-      <workItem from="1474046048859" duration="7597000" />
+      <workItem from="1474046048859" duration="7894000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="73071000" />
+    <option name="totallyTimeSpent" value="73368000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="61" y="24" width="1305" height="744" extended-state="6" />
@@ -996,13 +995,13 @@
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegisterController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="353">
-          <caret line="145" column="67" selection-start-line="145" selection-start-column="67" selection-end-line="145" selection-end-column="67" />
+          <caret line="145" column="66" selection-start-line="145" selection-start-column="66" selection-end-line="145" selection-end-column="66" />
           <folding>
             <element signature="e#40#76#0#PHP" expanded="true" />
-            <element signature="e#5520#5738#0#PHP" expanded="false" />
-            <element signature="e#5744#6122#0#PHP" expanded="false" />
-            <element signature="e#6128#6309#0#PHP" expanded="false" />
-            <element signature="e#6315#6503#0#PHP" expanded="false" />
+            <element signature="e#5519#5737#0#PHP" expanded="false" />
+            <element signature="e#5743#6121#0#PHP" expanded="false" />
+            <element signature="e#6127#6308#0#PHP" expanded="false" />
+            <element signature="e#6314#6502#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
