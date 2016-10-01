@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CorrectiveReparation;
 use App\Models\Equipment;
+use App\Models\Fault;
 use App\Models\Maintenance;
 use App\Models\PreventiveReparation;
 use App\Models\SubSystem;
@@ -44,6 +45,8 @@ class RegisterController extends Controller
         return view('register.index')->with('state',false);
     }
 
+    /* Modules Functions */
+
     public function RegisterCorrective(){
         $system = System::all();
         $subSystem = SubSystem::all();
@@ -58,7 +61,7 @@ class RegisterController extends Controller
     }
 
     public function StoreCorrective(Request $request){
-        $this->validate($request, RegisterController::$rulesCorrective);
+        $this->validate($request, RegisterController::$rulesPreventive);
 
         $date1 = Carbon::parse($request['date1']);
        // $date2 = Carbon::parse($request['date2']);
@@ -67,7 +70,7 @@ class RegisterController extends Controller
 
             $corrective = new CorrectiveReparation;
             $corrective->user_id          = $request['user_id'];
-            $corrective->reparation       = $request['maintenance'];
+            $corrective->fault_id         = $request['maintenance_id'];
             $corrective->equipment_id     = $request['equipment_id'];
             $corrective->initial_date     = $date1;
             $corrective->initial_time     = $request['time1'];
@@ -80,7 +83,7 @@ class RegisterController extends Controller
         }else{
             $corrective = new CorrectiveReparation;
             $corrective->user_id          = $request['user_id'];
-            $corrective->reparation       = $request['maintenance'];
+            $corrective->fault_id         = $request['maintenance_id'];
             $corrective->equipment_id     = $request['equipment_id'];
             $corrective->initial_date     = $date1;
             $corrective->initial_time     = $request['time1'];
@@ -146,6 +149,64 @@ class RegisterController extends Controller
         return view('register.index')->with('state','preventive');
     }
 
+    public function RegisterFaults(){
+        $system = System::all();
+        $subSystem = SubSystem::all();
+        $equipments = Equipment::all();
+        $users = User::all();
+
+        return view('register.faults')
+            ->with('system',$system)
+            ->with('subsystem',$subSystem)
+            ->with('equipments',$equipments)
+            ->with('users',$users);
+    }
+
+    public function StoreFaults(Request $request){
+        $this->validate($request, RegisterController::$rulesCorrective);
+
+        $date1 = Carbon::parse($request['date1']);
+        // $date2 = Carbon::parse($request['date2']);
+
+        if($request['subsystem_id']) {
+
+            $fault = new Fault;
+            $fault->user_id               = $request['user_id'];
+            $fault->fault                 = $request['maintenance'];
+            $fault->equipment_id          = $request['equipment_id'];
+            $fault->fault_date            = $date1;
+            $fault->fault_time            = $request['time1'];
+            //$corrective->ending_date    = $date2;
+            //$corrective->ending_time    = $request['time2'];
+            $fault->system_id             = $request['system_id'];
+            $fault->sub_system_id         = $request['subsystem_id'];
+            $fault->status                = false;
+            $fault->save();
+        }else{
+            $fault = new Fault;
+            $fault->user_id               = $request['user_id'];
+            $fault->fault                 = $request['maintenance'];
+            $fault->equipment_id          = $request['equipment_id'];
+            $fault->fault_date            = $date1;
+            $fault->fault_time            = $request['time1'];
+            //$corrective->ending_date    = $date2;
+            //$corrective->ending_time    = $request['time2'];
+            $fault->system_id             = $request['system_id'];
+            $fault->sub_system_id         = 28;
+            $fault->status                = false;
+            $fault->save();
+        }
+        return view('register.index')->with('state','fault');
+    }
+
+    public function RegisterFinish(){
+        return view('register.finish');
+    }
+
+    /****************************/
+
+    /*JavaScripts Ajax Functions*/
+
     public function changeSystem(Request $request){
         $equipment = Equipment::find($request['id']);
         $systems = $equipment->systems;
@@ -173,4 +234,33 @@ class RegisterController extends Controller
 
         return response()->json($maintenance);
     }
+
+    public function searchFaults(Request $request){
+
+        if($request['type'] == 'system'){
+            $faults = Fault::where('system_id',$request['id'])->get();
+            return response()->json($faults);
+        }else{
+            $faults = Fault::where('sub_system_id',$request['id'])->get();
+            return response()->json($faults);
+        }
+
+    }
+
+    public function fillTable(Request $request){
+
+        if($request['type']){
+            $preventive = PreventiveReparation::with('system','subSystem')
+                                            ->where('status',0)
+                                            ->get();
+
+            return response()->json($preventive);
+        }else{
+            $corrective = CorrectiveReparation::where('status',0)->get();
+
+            return response()->json($corrective);
+        }
+    }
+
+    /*****************************/
 }

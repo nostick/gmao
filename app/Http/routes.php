@@ -52,10 +52,15 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('changeSubSystem'              ,'RegisterController@changeSubSystem')->name('register.change.subsystem');
     Route::post('searchBySystem'               ,'RegisterController@searchBySystem')->name('register.search.bysystem');
     Route::post('searchBySubSystem'            ,'RegisterController@searchBySubSystem')->name('register.search.bysubsystem');
+    Route::post('searchFaults'                 ,'RegisterController@searchFaults')->name('register.search.faults');
+    Route::post('searchFinishTableData'        ,'RegisterController@fillTable')->name('register.fill.table');
     Route::get('register/corrective'           ,'RegisterController@RegisterCorrective')->name('register.corrective');
     Route::get('register/preventive'           ,'RegisterController@RegisterPreventive')->name('register.preventive');
+    Route::get('register/faults'               ,'RegisterController@RegisterFaults')->name('register.faults');
     Route::post('register/corrective/store'    ,'RegisterController@StoreCorrective')->name('register.corrective.store');
     Route::post('register/preventive/store'    ,'RegisterController@StorePreventive')->name('register.preventive.store');
+    Route::post('register/faults/store'        ,'RegisterController@StoreFaults')->name('register.fault.store');
+    Route::get('register/finish'               ,'RegisterController@RegisterFinish')->name('register.finish');
     Route::resource('register'                 ,'RegisterController');
 
 });

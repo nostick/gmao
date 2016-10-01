@@ -58,6 +58,7 @@ class ComposerStaticInit3316e759a89f9d1165f294eb4af1877e
         'P' => 
         array (
             'Psy\\' => 4,
+            'Psr\\Log\\' => 8,
             'PhpParser\\' => 10,
         ),
         'M' => 
@@ -184,6 +185,10 @@ class ComposerStaticInit3316e759a89f9d1165f294eb4af1877e
         array (
             0 => __DIR__ . '/..' . '/psy/psysh/src/Psy',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
@@ -233,10 +238,6 @@ class ComposerStaticInit3316e759a89f9d1165f294eb4af1877e
     public static $prefixesPsr0 = array (
         'P' => 
         array (
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
-            ),
             'Prophecy\\' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
@@ -293,6 +294,7 @@ class ComposerStaticInit3316e759a89f9d1165f294eb4af1877e
 
     public static $classMap = array (
         'AddStatusToCorrectivesReparations' => __DIR__ . '/../..' . '/database/migrations/2016_09_17_175534_add_status_to_correctives_reparations.php',
+        'AddStatusToFaultsTable' => __DIR__ . '/../..' . '/database/migrations/2016_10_01_170630_add_status_to_faults_table.php',
         'AddStatusToPreventivesReparations' => __DIR__ . '/../..' . '/database/migrations/2016_09_17_175603_add_status_to_preventives_reparations.php',
         'AddSubSystemIdToMaintenances' => __DIR__ . '/../..' . '/database/migrations/2016_06_21_204819_add_sub_system_id_to_maintenances.php',
         'AddSystemIdToMaintenances' => __DIR__ . '/../..' . '/database/migrations/2016_06_21_204811_add_system_id_to_maintenances.php',
@@ -420,6 +422,7 @@ class ComposerStaticInit3316e759a89f9d1165f294eb4af1877e
         'Maatwebsite\\Excel\\Writers\\CellWriter' => __DIR__ . '/..' . '/maatwebsite/excel/src/Maatwebsite/Excel/Writers/CellWriter.php',
         'Maatwebsite\\Excel\\Writers\\LaravelExcelWriter' => __DIR__ . '/..' . '/maatwebsite/excel/src/Maatwebsite/Excel/Writers/LaravelExcelWriter.php',
         'MaintenacesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/MaintenacesTableSeeder.php',
+        'ModifyReparationOnCorrectivesReparationTable' => __DIR__ . '/../..' . '/database/migrations/2016_10_01_171730_modify_reparation_on_correctives_reparation_table.php',
         'PHPUnit_Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit_Extensions_GroupTestSuite' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/GroupTestSuite.php',
         'PHPUnit_Extensions_PhptTestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/PhptTestCase.php',

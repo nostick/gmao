@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <label for="date1">Fecha inicial del mantenimiento</label>
                                 <input class="form-control datepicker" size="16" type="text" value="" name="date1" id="date1">
                                 <span class="add-on"><i class="icon-th"></i></span>
@@ -59,7 +59,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <label for="time1">Hora inicial del mantenimiento</label>
                             <input class="form-control timepicker" size="16" type="text" value="" name="time1" id="time1">
                             <span class="add-on"><i class="icon-th"></i></span>
@@ -84,8 +84,10 @@
                     <div class="form-group">
                         <div class="col-lg-12">
                             <br>
-                            <label for="maintenance">Mantenimiento</label>
-                            <input type="text" name="maintenance" id="maintenance" placeholder="Mantenimiento" class="form-control">
+                            <label for="maintenance">Averia</label>
+                            <select name="maintenance_id" id="maintenance_id" disabled="disabled" class="form-control">
+                                <option value="">Averia</option>
+                            </select>
                             <br><br>
                         </div>
 
@@ -104,6 +106,6 @@
 @endsection
 
 @section('extrajs')
-    @include('register.scripts.form')
+    @include('register.scripts.correctiveForm')
 @endsection
 

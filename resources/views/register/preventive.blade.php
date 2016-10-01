@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <label for="date1">Fecha inicial del mantenimiento</label>
                                 <input class="form-control datepicker" size="16" type="text" value="" name="date1" id="date1">
                                 <span class="add-on"><i class="icon-th"></i></span>
@@ -59,7 +59,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <label for="time1">Hora inicial del mantenimiento</label>
                             <input class="form-control timepicker" size="16" type="text" value="" name="time1" id="time1">
                             <span class="add-on"><i class="icon-th"></i></span>

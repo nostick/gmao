@@ -33,7 +33,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6">
-                        <a href="#">
+                        <a href="{{route('register.finish')}}">
                             <span class="glyphicon glyphicon-check logo"></span>
                             <h3>Finalizar Mantenimiento</h3>
                             <p>Finalizar actividad de mantenimiento correctivo o preventivo</p>
@@ -50,7 +50,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6">
-                        <a href="#">
+                        <a href="{{route('register.faults')}}">
                             <span class="glyphicon glyphicon-pushpin logo"></span>
                             <h3>Averia</h3>
                             <p>Registro de averia en algun equipo</p>

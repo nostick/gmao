@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddStatusToCorrectivesReparations' => $baseDir . '/database/migrations/2016_09_17_175534_add_status_to_correctives_reparations.php',
+    'AddStatusToFaultsTable' => $baseDir . '/database/migrations/2016_10_01_170630_add_status_to_faults_table.php',
     'AddStatusToPreventivesReparations' => $baseDir . '/database/migrations/2016_09_17_175603_add_status_to_preventives_reparations.php',
     'AddSubSystemIdToMaintenances' => $baseDir . '/database/migrations/2016_06_21_204819_add_sub_system_id_to_maintenances.php',
     'AddSystemIdToMaintenances' => $baseDir . '/database/migrations/2016_06_21_204811_add_system_id_to_maintenances.php',
@@ -134,6 +135,7 @@ return array(
     'Maatwebsite\\Excel\\Writers\\CellWriter' => $vendorDir . '/maatwebsite/excel/src/Maatwebsite/Excel/Writers/CellWriter.php',
     'Maatwebsite\\Excel\\Writers\\LaravelExcelWriter' => $vendorDir . '/maatwebsite/excel/src/Maatwebsite/Excel/Writers/LaravelExcelWriter.php',
     'MaintenacesTableSeeder' => $baseDir . '/database/seeds/MaintenacesTableSeeder.php',
+    'ModifyReparationOnCorrectivesReparationTable' => $baseDir . '/database/migrations/2016_10_01_171730_modify_reparation_on_correctives_reparation_table.php',
     'PHPUnit_Exception' => $vendorDir . '/phpunit/phpunit/src/Exception.php',
     'PHPUnit_Extensions_GroupTestSuite' => $vendorDir . '/phpunit/phpunit/src/Extensions/GroupTestSuite.php',
     'PHPUnit_Extensions_PhptTestCase' => $vendorDir . '/phpunit/phpunit/src/Extensions/PhptTestCase.php',
