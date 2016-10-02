@@ -203,6 +203,30 @@ class RegisterController extends Controller
         return view('register.finish');
     }
 
+    public function ConfirmFinish(Request $request){
+            if($request['type'] == 'preventive'){
+                $preventive = PreventiveReparation::find($request['id']);
+
+                $date1 = Carbon::parse($request['date1']);
+
+                $preventive->ending_date   = $date1;
+                $preventive->ending_time   = $request['time1'];
+                $preventive->status        = true;
+                $preventive->save();
+            }else{
+                $corrective = CorrectiveReparation::find($request['id']);
+
+                $date1 = Carbon::parse($request['date1']);
+
+                $corrective->ending_date   = $date1;
+                $corrective->ending_time   = $request['time1'];
+                $corrective->status        = true;
+                $corrective->save();
+            }
+
+        return view('register.index')->with('state','ending');
+    }
+
     /****************************/
 
     /*JavaScripts Ajax Functions*/
@@ -249,14 +273,16 @@ class RegisterController extends Controller
 
     public function fillTable(Request $request){
 
-        if($request['type']){
+        if($request['type'] == 'preventive'){
             $preventive = PreventiveReparation::with('system','subSystem')
                                             ->where('status',0)
                                             ->get();
 
             return response()->json($preventive);
         }else{
-            $corrective = CorrectiveReparation::where('status',0)->get();
+            $corrective = CorrectiveReparation::with('system','subSystem','fault')
+                                                ->where('status',0)
+                                                ->get();
 
             return response()->json($corrective);
         }

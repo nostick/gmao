@@ -28,10 +28,14 @@ class CorrectiveReparation extends Model
     }
 
     public function system(){
-        return $this->hasOne('App\Models\System');
+        return $this->belongsTo('App\Models\System');
     }
 
     public function subSystem(){
-        return $this->hasOne('App\Models\SubSystem');
+        return $this->belongsTo('App\Models\SubSystem');
     }
+
+    public function fault(){
+        return $this->belongsTo('App\Models\Fault');
+}
 }

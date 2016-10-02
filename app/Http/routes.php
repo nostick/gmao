@@ -61,6 +61,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('register/preventive/store'    ,'RegisterController@StorePreventive')->name('register.preventive.store');
     Route::post('register/faults/store'        ,'RegisterController@StoreFaults')->name('register.fault.store');
     Route::get('register/finish'               ,'RegisterController@RegisterFinish')->name('register.finish');
+    Route::post('register/confirmFinish'        ,'RegisterController@ConfirmFinish')->name('register.confirm.finish');
     Route::resource('register'                 ,'RegisterController');
 
 });

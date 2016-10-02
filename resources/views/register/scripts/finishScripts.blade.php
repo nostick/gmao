@@ -7,28 +7,107 @@
             method: 'POST',
             data:   {'type':'preventive','_token': '{{ csrf_token() }}'}
         }).success(function(data){
-            console.log(data);
-
-            $.each(data, function(key, maintenance) {
+            console.log(data.length);
+            if(data.length > 0){
+                 $('.ref').css('display','block');
+                 $("#finishTable > tbody").html("");
+                 $.each(data, function(key, maintenance) {
                 $('#finishTable')
                         .append($("<tr></tr>")
                                     .html("<th> " + maintenance.reparation       + "   </th>" +
                                           "<th> " + maintenance.system.name      + "   </th>" +
                                           "<th> " + maintenance.sub_system.name  + "   </th>"  +
                                           "<th> " + maintenance.initial_date     + "   </th>"  +
-                                          "<th> " + maintenance.initial_time     + "</th>"  +
-                                          "<th> <button class='btn btn-danger btn-xs'>Finalizar</button>" +
-
-                                            "</th>"  +
+                                          "<th> " + maintenance.initial_time     + "   </th>"  +
+                                          "<th> " +
+                                            "<button class='btn btn-danger btn-xs' data-toggle='modal' " +
+                                                "data-target='#confirmFinish' " +
+                                                "data-maintenance=' " + maintenance.id  + " ' " +
+                                                "data-name=' " + maintenance.reparation + " ' " +
+                                                "data-type='         preventive             ' " +
+                                                ">" +
+                                                "Finalizar " +
+                                            "</button>" +
+                                          "</th>"  +
                 ""));
             });
-
+            }else{
+                swal({
+                    title: "Error!",
+                    text: "No hay mantenimientos preventivos por terminar",
+                    type: "error",
+                    confirmButtonText: "Aceptar"
+                });
+            }
         }).error(function(x,y,error){
             alert('Ha ocurrido un error buscando mantenimientos');
         });
+    });
 
-       $('#corrective').css('display','none');
-       $('.ref').css('display','block');
+    $('#corrective').on('click',function(){
+
+        $.ajax({
+            url:'{{route('register.fill.table')}}',
+            method: 'POST',
+            data:   {'type':'corrective','_token': '{{ csrf_token() }}'}
+        }).success(function(data){
+            console.log(data);
+            if(data.length > 0){
+                $('.ref').css('display','block');
+                $("#finishTable > tbody").html("");
+                $.each(data, function(key, maintenance) {
+                    $('#finishTable')
+                            .append($("<tr></tr>")
+                                    .html("<th> " + maintenance.fault.fault       + "   </th>" +
+                                            "<th> " + maintenance.system.name      + "   </th>" +
+                                            "<th> " + maintenance.sub_system.name  + "   </th>"  +
+                                            "<th> " + maintenance.initial_date     + "   </th>"  +
+                                            "<th> " + maintenance.initial_time     + "   </th>"  +
+                                            "<th> " +
+                                            "<button class='btn btn-danger btn-xs' data-toggle='modal' " +
+                                            "data-target='#confirmFinish' " +
+                                            "data-maintenance=' " + maintenance.id  + " ' " +
+                                            "data-name=' " + maintenance.fault.fault + " ' " +
+                                            "data-type='         corrective             ' " +
+                                            ">" +
+                                            "Finalizar " +
+                                            "</button>" +
+                                            "</th>"  +
+                                            ""));
+                });
+            }else{
+                swal({
+                    title: "Error!",
+                    text: "No hay mantenimientos por terminar",
+                    type: "error",
+                    confirmButtonText: "Aceptar"
+                });
+            }
+        }).error(function(x,y,error){
+            alert('Ha ocurrido un error buscando mantenimientos');
+        });
+    });
+
+    $('#confirmFinish').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var maintenance = $.trim(button.data('maintenance')); // Extract info from data-* attributes
+        var name        = button.data('name');
+        var type        = $.trim(button.data('type'));
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this);
+        modal.find('.verify').html("Esta seguro que desea finalizar:" + name +"<br><br><br>");
+        modal.find('#id').val(maintenance);
+        modal.find('#type').val(type);
+    });
+
+    $('.datepicker').datetimepicker({
+        format: 'DD-MM-YYYY'
+
+    });
+
+    $('.timepicker').datetimepicker({
+        format: 'LT'
     });
 
     /*$(".datepicker").on("dp.change", function (e) {

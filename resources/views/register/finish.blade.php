@@ -60,6 +60,8 @@
         </div>
     </div>
 </div>
+
+    @include('register.modals.confirmFinish')
 @endsection
 
 @section('extrajs')
