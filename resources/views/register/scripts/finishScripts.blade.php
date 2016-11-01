@@ -102,7 +102,8 @@
     });
 
     $('.datepicker').datetimepicker({
-        format: 'DD-MM-YYYY'
+        format: 'DD-MM-YYYY',
+        minDate: moment()
 
     });
 
@@ -110,6 +111,18 @@
         format: 'LT'
     });
 
+    $('#durationTime').on('change',function(){
+        var valTime = $('#durationDay').val();
+        var valPretend = $('#durationTime').val();
+
+        valTime = valTime * 8;
+
+
+        if(valPretend > valTime){
+            swal("Error!", "La cantidad de horas debe ser menor a: " + valTime, "error");
+        }
+
+    });
     /*$(".datepicker").on("dp.change", function (e) {
         $('.datepicker2').data("DateTimePicker").minDate(e.date);
         $(this).attr('value', e.date.format('DD-MM-YYYY'));
@@ -125,28 +138,5 @@
     $(".timepicker2").on("dp.change", function (e) {
         $(this).attr('value', e.date.format('HH:mm'));
     });*/
-
-    $('#subsystem_id').on('change',function(){
-        var $id = $('#subsystem_id').val();
-        $('#maintenance_id').attr("disabled", false);
-        $('#maintenance_id').empty();
-        console.log($id);
-        $.ajax({
-            url:    '{{route('register.search.bysubsystem')}}',
-            method: 'POST',
-            data:   {'id':$id,'_token': '{{ csrf_token() }}'}
-        }).success(function(data){
-            console.log(data);
-
-            $.each(data, function(key, system) {
-                $('#maintenance_id')
-                        .append($("<option></option>")
-                                .attr("value",system.id)
-                                .text(system.description));
-            });
-        }).error(function(error,errorThrown,text){
-            alert('Ha ocurrido un error seleccionando el subsistem');
-        });
-    });
 
 </script>

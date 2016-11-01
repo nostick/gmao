@@ -6,6 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddDurationToCorrectiveMaintenance' => $baseDir . '/database/migrations/2016_10_24_193024_add_duration_to_corrective_maintenance.php',
+    'AddDurationToPreventiveMaintenance' => $baseDir . '/database/migrations/2016_10_24_193034_add_duration_to_preventive_maintenance.php',
     'AddStatusToCorrectivesReparations' => $baseDir . '/database/migrations/2016_09_17_175534_add_status_to_correctives_reparations.php',
     'AddStatusToFaultsTable' => $baseDir . '/database/migrations/2016_10_01_170630_add_status_to_faults_table.php',
     'AddStatusToPreventivesReparations' => $baseDir . '/database/migrations/2016_09_17_175603_add_status_to_preventives_reparations.php',

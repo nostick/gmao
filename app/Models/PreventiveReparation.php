@@ -16,7 +16,7 @@ class PreventiveReparation extends Model
     }
 
     public function equipment(){
-        return $this->hasOne('App\Models\Equipment');
+        return $this->belongsTo('App\Models\Equipment');
     }
 
     public function system(){

@@ -13,7 +13,7 @@
                     <a href="{{url('register')}}">Registro de mantenimiento de Equipos</a>
                 </li>
                 <li>
-                    <a href="#">Indice de mantemiento</a>
+                    <a href="{{url('indicators')}}">Indice de mantemiento</a>
                 </li>
                 <li>
                     <a href="#">Costo de Ciclo de Vida</a>

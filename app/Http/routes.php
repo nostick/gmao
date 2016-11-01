@@ -61,8 +61,15 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('register/preventive/store'    ,'RegisterController@StorePreventive')->name('register.preventive.store');
     Route::post('register/faults/store'        ,'RegisterController@StoreFaults')->name('register.fault.store');
     Route::get('register/finish'               ,'RegisterController@RegisterFinish')->name('register.finish');
-    Route::post('register/confirmFinish'        ,'RegisterController@ConfirmFinish')->name('register.confirm.finish');
+    Route::post('register/confirmFinish'       ,'RegisterController@ConfirmFinish')->name('register.confirm.finish');
     Route::resource('register'                 ,'RegisterController');
+
+    Route::post('indicators/searchBySystem'    ,'IndexesController@searchBySystem')->name('indicators.search.bysystem');
+    Route::post('indicators/searchBySubSystem' ,'IndexesController@searchBySubSystem')->name('indicators.search.bysubsystem');
+    Route::post('indicators/calculate'         ,'IndexesController@calculateIndexes')->name('indicators.calculate');
+    Route::get('indicators/preventive'         ,'IndexesController@Preventive')->name('indicators.preventive');
+    Route::get('indicators/corrective'         ,'IndexesController@Corrective')->name('indicators.corrective');
+    Route::resource('indicators'               ,'IndexesController');
 
 });
 

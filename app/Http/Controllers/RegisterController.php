@@ -212,6 +212,8 @@ class RegisterController extends Controller
                 $preventive->ending_date   = $date1;
                 $preventive->ending_time   = $request['time1'];
                 $preventive->status        = true;
+                $preventive->duration_days = $request['durationDay'];
+                $preventive->duration_time = $request['durationTime'];
                 $preventive->save();
             }else{
                 $corrective = CorrectiveReparation::find($request['id']);
@@ -221,6 +223,8 @@ class RegisterController extends Controller
                 $corrective->ending_date   = $date1;
                 $corrective->ending_time   = $request['time1'];
                 $corrective->status        = true;
+                $corrective->duration_days = $request['durationDay'];
+                $corrective->duration_time = $request['durationTime'];
                 $corrective->save();
             }
 

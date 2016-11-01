@@ -29,6 +29,22 @@
                     </div>
                 </div>
 
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            <label for="date1">Duracion de mantenimiento (en Dias)</label>
+                            <input class="form-control" size="16" type="number" name="durationDay" id="durationDay" required>
+                            <span class="add-on"><i class="icon-th"></i></span>
+                            <br>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label for="time1">Duracion de mantenimiento (en Horas)</label>
+                            <input class="form-control" size="16" type="number" name="durationTime" id="durationTime" required>
+                            <span class="add-on"><i class="icon-th"></i></span>
+                            <br>
+                        </div>
+                    </div>
+
                     <input type="hidden" value="" name="id" id="id">
                     <input type="hidden" value="" name="type" id="type">
                     <br>
