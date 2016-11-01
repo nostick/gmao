@@ -144,18 +144,175 @@ class IndexesController extends Controller
                 $this->calculateBySystem($input);
                 break;
             case 2 :
-                $this->calculateBySubSystem($input);
+                $view = $this->calculateBySubSystem($input);
+                return view('indexes.show')->with('data',$view->getData());
                 break;
 
             case 3 :
-                $this->calculateByMaintenance($input);
+                $view = $this->calculateByMaintenance($input);
+                return view('indexes.show')->with('data',$view->getData());
                 break;
         }
     }
 
     public function calculateBySystem($data){}
 
-    public function calculateBySubSystem($data){}
+    public function calculateBySubSystem($data){
+        $initialDate = Carbon::createFromFormat('d-m-Y', $data['date1']);
+
+        $preventive = PreventiveReparation::where('equipment_id',$data['equipment_id'])
+            ->where('system_id',$data['system_id'])
+            ->where('sub_system_id',$data['subsystem_id'])
+            ->where('status',1)
+            ->orderBy('initial_date','asc')
+            ->get();
+
+        if(count($preventive)<1){
+            return view('indexes.show')
+                ->with('result',false);
+        }
+
+        $corrective = CorrectiveReparation::where('equipment_id',$data['equipment_id'])
+                                            ->where('system_id',$data['system_id'])
+                                            ->where('status',1)
+                                            ->orderBy('initial_date','asc')
+                                            ->get();
+
+        if(count($corrective)<1){
+            return view('indexes.show')
+                ->with('result',false);
+        }
+
+        $n = 0;
+        foreach($corrective as $c){
+            $dt = Carbon::parse($c->initial_date);
+
+            if($dt->gt($initialDate)){
+                $n++;
+            }
+        }
+
+        $correctiveToCalculate = CorrectiveReparation::where('equipment_id',$data['equipment_id'])
+                                            ->where('system_id',$data['system_id'])
+                                            ->where('sub_system_id',$data['subsystem_id'])
+                                            ->where('status',1)
+                                            ->orderBy('initial_date','asc')
+                                            ->get();
+
+        if(count($correctiveToCalculate)<1){
+            return view('indexes.show')
+                ->with('result',false);
+        }
+
+        $maintenance = Maintenance::where('equipment_id',$data['equipment_id'])
+            ->where('system_id',$data['system_id'])
+            ->where('sub_system_id',$data['subsystem_id'])
+            ->get();
+
+        $equipment = Equipment::find($data['equipment_id']);
+
+        if(count($maintenance)<1){
+            return view('indexes.show')
+                ->with('result',false);
+        }
+
+        $arrayData = $this->joinData($preventive,$correctiveToCalculate);
+
+        $TBF     = [];
+        $MTBF    = [];
+        $TO      = [];
+        $HT      = [];
+        $lamda   = [];
+        $TTR     = [];
+        $HMP     = [];
+        $HMC     = [];
+        $MTTR    = [];
+        $miu     = [];
+        $D       = [];
+        $FF      = [];
+        $FD      = [];
+        $TA      = [];
+        $type    = [];
+
+        foreach($arrayData as $index => $d){
+            $init = Carbon::parse($d->initial_date);
+            $end  = Carbon::parse($d->ending_date);
+
+            if($index == 0){
+                $TBF[]   = $init->diffInDays($initialDate);
+                $HT[]    = $TBF[$index] * 8;
+                $MTBF[]  = $TBF[$index] / $n;
+                $TTR[]   = $d->duration_days;
+                $MTTR[]  = $TTR[$index] / $n;
+                $lamda[] = 1 / $MTBF[$index];
+                $miu[]   = 1 / $MTTR[$index];
+                $TO[]    = $init->diffInDays($equipment->created_at);
+                $TA[]    = $init->diffInDays($end);
+
+                if($d->getTable() == "preventives_reparations"){
+                    $HMP[]   = $d->duration_time;
+                    $HMC[]   = 0;
+                    $type[]  = 'preventive';
+                }else{
+                    $HMC[]   = $d->duration_time;
+                    $HMP[]   = 0;
+                    $type[]  = 'corrective';
+                }
+
+                $D[]          = $MTBF[$index] / ($MTBF[$index] + $MTTR[$index]);
+                if(isset($HMP[$index])){
+                    $FF[]         = ($HT[$index] - $HMP[$index]) / $HT[$index] ;
+                }else{
+                    $FF[]         = 0;
+                }
+                if(isset($HMP[$index])){
+                    $FD[]    = ($HT[$index] - $HMP[$index]) / $HT[$index];
+                }else{
+                    $FD[]    = ($HT[$index] - $HMC[$index]) / $HT[$index];
+                }
+
+            }else{
+                    $refEnd = Carbon::parse($arrayData[$index-1]->ending_date);
+                if($init->diffInDays($refEnd)> 0 ){$TBF[]   = $init->diffInDays($refEnd);}else{$TBF[]   = 1;}
+                    $HT[]    = $TBF[$index]*8;
+                    $MTBF[]  = $TBF[$index]/$n;
+                    $TTR[]   = $d->duration_days;
+                    $MTTR[]  = $TTR[$index] / $n;
+                    $lamda[] = 1 / $MTBF[$index];
+                    $miu[]   = 1 / $MTTR[$index];
+                    $TO[]    = $init->diffInDays($equipment->created_at);
+                    $TA[]    = $init->diffInDays($end);
+                    $D[]     = $MTBF[$index] / ($MTBF[$index] + $MTTR[$index]);
+                if($d->getTable() == "preventives_reparations"){
+                    $HMP[]   = $d->duration_time;
+                    $HMC[]   = 0;
+                    $type[]  = 'preventive';
+                }else{
+                    $HMC[]   = $d->duration_time;
+                    $HMP[]   = 0;
+                    $type[]  = 'corrective';
+                }
+                if($HMP[$index] != 0){
+                    $FF[]         = ($HT[$index] - $HMP[$index]) / $HT[$index];
+                    $FD[]    = ($HT[$index] - $HMP[$index]) / $HT[$index];
+                }else{
+                    $FF[]         = 1;
+                    $FD[]    = ($HT[$index] - $HMC[$index]) / $HT[$index];
+                }
+            }
+        }
+        return view('indexes.show')
+            ->with('TBF',$TBF)->with('TTR',$TTR)->with('HT',$HT)
+            ->with('HMC',$HMC)->with('HMP',$HMP)->with('TO',$TO)
+            ->with('TA',$TA)->with('MTBF',$MTBF)->with('lamda',$lamda)
+            ->with('MTTR',$MTTR)->with('miu',$miu)->with('D',$D)
+            ->with('n',$n)
+            ->with('FF',$FF)->with('FD',$FD)
+            ->with('type',$type)
+            ->with('all',$arrayData)
+            ->with('maintenance',$maintenance);
+
+    }
 
     public function calculateByMaintenance($data){
 
@@ -164,11 +321,33 @@ class IndexesController extends Controller
         $preventive = PreventiveReparation::where('equipment_id',$data['equipment_id'])
                                             ->where('system_id',$data['system_id'])
                                             ->where('sub_system_id',$data['subsystem_id'])
+                                            ->orderBy('initial_date','asc')
                                             ->get();
+
+        if(count($preventive)<1){
+            return view('indexes.show')
+                ->with('result',false);
+        }
 
         $corrective = CorrectiveReparation::where('equipment_id',$data['equipment_id'])
                                             ->where('system_id',$data['system_id'])
+                                            ->orderBy('initial_date','asc')
                                             ->get();
+
+        if(count($corrective)<1){
+            return view('indexes.show')
+                ->with('result',false);
+        }
+
+        $maintenance = Maintenance::where('equipment_id',$data['equipment_id'])
+                                    ->where('system_id',$data['system_id'])
+                                    ->where('sub_system_id',$data['subsystem_id'])
+                                    ->get();
+
+        if(count($maintenance)<1){
+            return view('indexes.show')
+                ->with('result',false);
+        }
 
         $n = 0;
         foreach($corrective as $c){
@@ -203,7 +382,7 @@ class IndexesController extends Controller
             $MTTR[]       = $p->duration_days / $n;
             $miu[]        = 1 / ($MTTR[$index]);
             $D[]          = $MTBF / ($MTBF + $MTTR[$index]);
-            $HMP          = $p->duration_time;
+            $HMP[]        = $p->duration_time;
             $FF[]         = ($HT - $p->duration_time) / $HT ;
             $FD[]         = ($HT - $p->duration_time)/  $HT;
         }
@@ -213,8 +392,17 @@ class IndexesController extends Controller
             ->with('HMC',$HMC)->with('HMP',$HMP)->with('TO',$TO)
             ->with('TA',$TA)->with('MTBF',$MTBF)->with('lamda',$lamda)
             ->with('MTTR',$MTTR)->with('miu',$miu)->with('D',$D)
+            ->with('n',$n)
             ->with('FF',$FF)->with('FD',$FD)
-            ->with('preventive',$preventive);
+            ->with('preventive',$preventive)
+            ->with('maintenance',$maintenance);
+    }
+
+    public function joinData($preventive,$corrective){
+
+        $data = $preventive->merge($corrective)->sortBy('initial_date',0,false);
+
+        return $data;
     }
 
     /****************************/
