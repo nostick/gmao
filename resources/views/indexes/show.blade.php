@@ -203,7 +203,7 @@
                                         <td>{{round($data['D'][$index],2)}}</td>
                                         <td>{{round($data['FF'][$index],2)}}</td>
                                         <td>{{round($data['FD'][$index],2)}}</td>
-                                        
+
                                     </tr>
                                     </tbody>
                                 </table>

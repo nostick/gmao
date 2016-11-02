@@ -62,7 +62,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('register/faults/store'        ,'RegisterController@StoreFaults')->name('register.fault.store');
     Route::get('register/finish'               ,'RegisterController@RegisterFinish')->name('register.finish');
     Route::post('register/confirmFinish'       ,'RegisterController@ConfirmFinish')->name('register.confirm.finish');
-    Route::resource('register'                 ,'RegisterController');
+    Route::resource('register_maintenances'                 ,'RegisterController');
 
     Route::post('indicators/searchBySystem'    ,'IndexesController@searchBySystem')->name('indicators.search.bysystem');
     Route::post('indicators/searchBySubSystem' ,'IndexesController@searchBySubSystem')->name('indicators.search.bysubsystem');
