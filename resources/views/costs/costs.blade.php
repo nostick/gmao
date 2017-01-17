@@ -13,8 +13,20 @@
                         <h4 class="text-center">Costo de Ciclo de Vida</h4>
                         <br><br>
 
+                        <div class="col-lg-4">
+                            <canvas id="myChart" width="100" height="100"></canvas>
+                        </div>
+                        <div class="col-lg-4">
+                            <canvas id="myChart2" width="100" height="100"></canvas>
+                        </div>
+                        <div class="col-lg-4">
+                            <canvas id="myChart3" width="100" height="100"></canvas>
 
-                        <canvas id="myChart" width="200" height="100"></canvas>
+                        </div>
+
+
+
+
 
 
                     </div>
@@ -51,97 +63,118 @@
 @section('extrajs')
     <script>
         var ctx = $("#myChart");
+        var ctx2 = $("#myChart2");
+        var ctx3 = $("#myChart3");
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ["CIM", "CYO", "CYM"],
+                labels: ["CIM"],
                 datasets: [{
                     label: 'CIMFS',
-                    data: ['{{$CIM['CIMFS']}}','{{$CYO}}', '{{$CYM['CYMP']}}'],
+                    data: ['{{$CIM['CIMFS']}}'],
                     backgroundColor: [
-                        'rgba(184, 44, 44, 0.5)', /*Color para CIMFS*/
-                        'rgba(5, 116, 144, 0.5)', /*Color para CIMFW*/
-                        'rgba(86, 116, 96, 0.5)'  /*Color para CIMRSU*/
+                        'rgba(184, 44, 44, 0.5)' /*Color para CIMRSU*/
                     ],
                     borderColor: [
-                        'rgba(5,5,5,1)',
-                        'rgba(5, 5, 5, 1)',
-                        'rgba(5, 5, 5, 1)'
+                        'rgba(5,5,5,1)'
                     ],
                     borderWidth: 1
                 },
                     {
                         label: 'CIMFW',
-                        data: ['{{$CIM['CIMFW']}}', 0, {{$CYM['CYMC']}}],
+                        data: ['{{$CIM['CIMFW']}}'],
                         backgroundColor: [
-                            'rgba(184, 73, 197, 0.5)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(5, 116, 52, 0.5)'
+                            'rgba(184, 73, 197, 0.5)'
                         ],
                         borderColor: [
-                            'rgba(5,5,5,1)',
-                            'rgba(5, 5, 5, 1)',
-                            'rgba(5, 5, 5, 1)'
+                            'rgba(5,5,5,1)'
                         ],
                         borderWidth: 1
                     },
                     {
                         label: 'CIMSRU',
-                        data: ['{{$CIM['CIMSRU']}}', 0, 0],
+                        data: ['{{$CIM['CIMSRU']}}'],
                         backgroundColor: [
-                            'rgba(174, 116, 96, 0.5)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)'
+                            'rgba(174, 116, 96, 0.5)'
                         ],
                         borderColor: [
-                            'rgba(5,5,5,1)',
-                            'rgba(5, 5, 5, 1)',
-                            'rgba(5, 5, 5, 1)'
+                            'rgba(5,5,5,1)'
                         ],
                         borderWidth: 1
-                    },
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        },
+                        stacked:true
+                    }],
+                    xAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+        });
+        var myChart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ["CYO"],
+                datasets: [{
+                    label: 'CYOU',
+                    data: ['{{$CYO}}'],
+                    backgroundColor: [
+                        'rgba(0, 109, 153, 0.5)' /*Color para CIMRSU*/
+                    ],
+                    borderColor: [
+                        'rgba(5,5,5,1)'
+                    ],
+                    borderWidth: 1
+                }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        },
+                        stacked:true
+                    }],
+                    xAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+        });
+        var myChart3 = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: ["CYM"],
+                datasets: [{
+                    label: 'CYMP',
+                    data: ['{{$CYM['CYMP']}}'],
+                    backgroundColor: [
+                        'rgba(0, 109, 59, 0.5)' /*Color para CIMRSU*/
+                    ],
+                    borderColor: [
+                        'rgba(5,5,5,1)'
+                    ],
+                    borderWidth: 1
+                },
                     {
-                        label: 'CYOU',
+                        label: 'CYMC',
+                        data: ['{{$CYM['CYMC']}}'],
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)'
+                            'rgba(0, 152, 59, 0.5)'
                         ],
                         borderColor: [
-                            'rgba(5,5,5,1)',
-                            'rgba(5, 5, 5, 1)',
-                            'rgba(5, 5, 5, 1)'
+                            'rgba(5,5,5,1)'
                         ],
                         borderWidth: 1
-                    },
-                    {
-                        label: 'CYCMS',
-                        backgroundColor: [
-                            'rgba(5, 5, 5, 0.2)',
-                            'rgba(5, 5, 5, 0.2)',
-                            'rgba(5, 5, 5, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(5,5,5,1)',
-                            'rgba(5, 5, 5, 1)',
-                            'rgba(5, 5, 5, 1)'
-                        ],
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'CYCMW',
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(5,5,5,1)',
-                            'rgba(5, 5, 5, 1)',
-                            'rgba(5, 5, 5, 1)'
-                        ],
-                        borderWidth: 1
-                    },
+                    }
                 ]
             },
             options: {
