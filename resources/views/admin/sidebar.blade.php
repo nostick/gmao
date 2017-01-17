@@ -16,7 +16,7 @@
                     <a href="{{url('indicators')}}">Indice de mantemiento</a>
                 </li>
                 <li>
-                    <a href="#">Costo de Ciclo de Vida</a>
+                    <a href="{{url('costs')}}">Costo de Ciclo de Vida</a>
                 </li>
             </ul>
         </div>

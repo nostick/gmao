@@ -141,7 +141,8 @@ class IndexesController extends Controller
 
         switch ($type){
             case 1 :
-                $this->calculateBySystem($input);
+                $view = $this->calculateBySystem($input);
+                return view('indexes.show')->with('data',$view->getData());
                 break;
             case 2 :
                 $view = $this->calculateBySubSystem($input);
@@ -150,6 +151,11 @@ class IndexesController extends Controller
 
             case 3 :
                 $view = $this->calculateByMaintenance($input);
+                return view('indexes.show')->with('data',$view->getData());
+                break;
+
+            case 4 :
+                $view = $this->calculateByMaintenanceCorrective($input);
                 return view('indexes.show')->with('data',$view->getData());
                 break;
         }
@@ -212,6 +218,10 @@ class IndexesController extends Controller
         }
 
         $arrayData = $this->joinData($preventive,$correctiveToCalculate);
+        $arr = [];
+        foreach($arrayData as $ar){
+            $arr[] = $ar;
+        }
 
         $TBF     = [];
         $MTBF    = [];
@@ -229,7 +239,7 @@ class IndexesController extends Controller
         $TA      = [];
         $type    = [];
 
-        foreach($arrayData as $index => $d){
+        foreach($arr as $index => $d){
             $init = Carbon::parse($d->initial_date);
             $end  = Carbon::parse($d->ending_date);
 
@@ -267,13 +277,15 @@ class IndexesController extends Controller
                 }
 
             }else{
-                $refEnd = Carbon::parse($arrayData[$index-1]->ending_date);
+                $refEnd = Carbon::parse($arr[$index-1]->ending_date);
+
                 if($init->diffInDays($refEnd)> 0 ){
                     $TBF[]   = $init->diffInDays($refEnd);
+
                 }else{
                     $TBF[]   = 1;
                 }
-dd($arrayData);
+
                 $HT[]    = $TBF[$index]*8;
                 $MTBF[]  = $TBF[$index]/$n;
                 $TTR[]   = $d->duration_days;
@@ -309,7 +321,7 @@ dd($arrayData);
             ->with('n',$n)
             ->with('FF',$FF)->with('FD',$FD)
             ->with('type',$type)
-            ->with('all',$arrayData)
+            ->with('all',$arr)
             ->with('maintenance',$maintenance);
     }
 
@@ -374,6 +386,11 @@ dd($arrayData);
 
         $arrayData = $this->joinData($preventive,$correctiveToCalculate);
 
+        $arr = [];
+        foreach($arrayData as $ar){
+            $arr[] = $ar;
+        }
+
         $TBF     = [];
         $MTBF    = [];
         $TO      = [];
@@ -390,7 +407,7 @@ dd($arrayData);
         $TA      = [];
         $type    = [];
 
-        foreach($arrayData as $index => $d){
+        foreach($arr as $index => $d){
             $init = Carbon::parse($d->initial_date);
             $end  = Carbon::parse($d->ending_date);
 
@@ -428,7 +445,7 @@ dd($arrayData);
                 }
 
             }else{
-                    $refEnd = Carbon::parse($arrayData[$index-1]->ending_date);
+                    $refEnd = Carbon::parse($arr[$index-1]->ending_date);
                 if($init->diffInDays($refEnd)> 0 ){$TBF[]   = $init->diffInDays($refEnd);}else{$TBF[]   = 1;}
                     $HT[]    = $TBF[$index]*8;
                     $MTBF[]  = $TBF[$index]/$n;
@@ -477,6 +494,7 @@ dd($arrayData);
         $preventive = PreventiveReparation::where('equipment_id',$data['equipment_id'])
                                             ->where('system_id',$data['system_id'])
                                             ->where('sub_system_id',$data['subsystem_id'])
+                                            ->where('status',1)
                                             ->orderBy('initial_date','asc')
                                             ->get();
 
@@ -487,6 +505,7 @@ dd($arrayData);
 
         $corrective = CorrectiveReparation::where('equipment_id',$data['equipment_id'])
                                             ->where('system_id',$data['system_id'])
+                                            ->where('status',1)
                                             ->orderBy('initial_date','asc')
                                             ->get();
 
@@ -554,6 +573,90 @@ dd($arrayData);
             ->with('maintenance',$maintenance);
     }
 
+    public function calculateByMaintenanceCorrective($data){
+        $initialDate = Carbon::createFromFormat('d-m-Y', $data['date1']);
+
+        $correctiveToCalculate = CorrectiveReparation::where('fault_id',$data['maintenance_id'])
+            ->where('status',1)
+            ->orderBy('initial_date','asc')
+            ->get();
+
+        if(count($correctiveToCalculate)<1){
+            return view('indexes.show')
+                ->with('result',false);
+        }
+
+        $corrective = CorrectiveReparation::where('equipment_id',$data['equipment_id'])
+            ->where('system_id',$data['system_id'])
+            ->where('status',1)
+            ->orderBy('initial_date','asc')
+            ->get();
+
+        if(count($corrective)<1){
+            return view('indexes.show')
+                ->with('result',false);
+        }
+
+        $maintenance = Maintenance::where('equipment_id',$data['equipment_id'])
+            ->where('system_id',$data['system_id'])
+            ->where('sub_system_id',$data['subsystem_id'])
+            ->get();
+
+        if(count($maintenance)<1){
+            return view('indexes.show')
+                ->with('result',false);
+        }
+
+        $n = 0;
+        foreach($corrective as $c){
+            $dt = Carbon::parse($c->initial_date);
+
+            if($n == 0){
+                $TBF = $dt->diffInDays($initialDate);
+                $HT = $TBF * 8;
+                $TO = Carbon::now()->diffInDays($corrective[0]->equipment->created_at);
+            }
+            if($dt->gt($initialDate)){
+                $n++;
+            }
+        }
+
+        $MTBF    = $TBF / $n;
+        $lamda   = 1 / $MTBF;
+        $TTR     = [];
+        $HMP     = 0;
+        $HMC     = [];
+        $MTTR    = [];
+        $miu     = [];
+        $D       = [];
+        $FF      = [];
+        $FD      = [];
+        $TA      = [];
+        foreach($corrective as $index => $p){
+            $basicDate    = Carbon::parse($p->initial_date);
+            $endingDate   = Carbon::parse($p->ending_date);
+            $TA[]         = $endingDate->diffInDays($basicDate);
+            $TTR[]        = $p->duration_days;
+            $MTTR[]       = $p->duration_days / $n;
+            $miu[]        = 1 / ($MTTR[$index]);
+            $D[]          = $MTBF / ($MTBF + $MTTR[$index]);
+            $HMC[]        = $p->duration_time;
+            $FF[]         = ($HT - $p->duration_time) / $HT ;
+            $FD[]         = ($HT - $p->duration_time)/  $HT;
+        }
+
+        return view('indexes.show')
+            ->with('TBF',$TBF)->with('TTR',$TTR)->with('HT',$HT)
+            ->with('HMC',$HMC)->with('HMP',$HMP)->with('TO',$TO)
+            ->with('TA',$TA)->with('MTBF',$MTBF)->with('lamda',$lamda)
+            ->with('MTTR',$MTTR)->with('miu',$miu)->with('D',$D)
+            ->with('n',$n)
+            ->with('FF',$FF)->with('FD',$FD)
+            ->with('corrective',$correctiveToCalculate)
+            ->with('type','corrective')
+            ->with('maintenance',$maintenance);
+    }
+
     public function joinData($preventive,$corrective){
 
         $data = $preventive->merge($corrective)->sortBy('initial_date',0,false);
@@ -566,13 +669,13 @@ dd($arrayData);
     /*JavaScripts Ajax Functions*/
 
     public function searchBySystem(Request $request){
-        $maintenance = Maintenance::where('system_id',$request['id'])->get();
+        $maintenance = Fault::where('system_id',$request['id'])->get();
 
         return response()->json($maintenance);
     }
 
     public function searchBySubSystem(Request $request){
-        $maintenance = Maintenance::where('sub_system_id',$request['id'])->get();
+        $maintenance = Fault::where('sub_system_id',$request['id'])->get();
 
         return response()->json($maintenance);
     }

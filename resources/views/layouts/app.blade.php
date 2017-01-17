@@ -45,6 +45,7 @@
     <script src="{{url('plugins/sweetalert-master/dist/sweetalert.min.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.js"></script>
     @yield('extrajs')
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>

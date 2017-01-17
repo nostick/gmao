@@ -108,7 +108,7 @@
 @endsection
 
 @section('extrajs')
-    @include('indexes.scripts.baseScripts')
+    @include('indexes.scripts.correctiveScripts')
     @if(isset($state))
     <script>
         $( document).ready( function(){

@@ -71,6 +71,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('indicators/corrective'         ,'IndexesController@Corrective')->name('indicators.corrective');
     Route::resource('indicators'               ,'IndexesController');
 
+    Route::resource('costs'                    ,'CostsController');
+
 });
 
 

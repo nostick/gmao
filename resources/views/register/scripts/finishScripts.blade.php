@@ -103,7 +103,7 @@
 
     $('.datepicker').datetimepicker({
         format: 'DD-MM-YYYY',
-        minDate: moment()
+        //minDate: moment()
 
     });
 
