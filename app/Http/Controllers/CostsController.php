@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\CorrectiveReparation;
 use App\Models\ElementCost;
+use App\Models\Equipment;
 use App\Models\LLC;
 use App\Models\PreventiveReparation;
 use App\Models\SubSystem;
+use App\Models\System;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -20,7 +22,8 @@ class CostsController extends Controller
      */
     public function index()
     {
-        return view('costs.index');
+        $equipments = Equipment::all();
+        return view('costs.index')->with('equipments',$equipments);
     }
 
     /**
@@ -41,11 +44,9 @@ class CostsController extends Controller
      */
     public function store(Request $request)
     {
-        $indicator = $request['indicator'];
-
-        $CIM   = $this->calculateCIM();
-        $CYO   = $this->calculateCYO();
-        $CYM   = $this->calculateCYM($indicator);
+        $CIM   = $this->calculateCIM($request);
+        $CYO   = $this->calculateCYO($request);
+        $CYM   = $this->calculateCYM($request);
         return view('costs.costs')
             ->with('CIM',$CIM)
             ->with('CYO',$CYO)
@@ -97,7 +98,30 @@ class CostsController extends Controller
         //
     }
 
-    public function calculateCIM(){
+    public function calculateCIM($request){
+        $value = $request['indicator'];
+        $equipment = $request['equipment_id'];
+        $levels = array();
+
+        if($equipment == 1){
+            $levels = array(7,8,9);
+        }elseif($equipment == 2){
+            $levels = array(3,10);
+        }elseif($equipment == 3){
+            $levels = array(4,11,12);
+        }elseif($equipment == 4){
+            $levels = array(5,13,14,15,16,17,18,19);
+        }
+
+        $elements = array();
+        foreach($levels as $l){
+            $elementsPrev = ElementCost::where('level',$l)->get();
+            foreach($elementsPrev as $prev){
+                if($prev->cost != 0){
+                    $elements[] = $prev;
+                }
+            }
+        }
 
         $CIMFS = 5000 * 2;
         $CIMFW = 40000;
@@ -105,20 +129,13 @@ class CostsController extends Controller
         $SP = 0.01;
         $CIMSRU = 0;
 
-        $elements = ElementCost::whereIn('level',['7','8','9','10'
-            ,'11','12','13','14','15','16','17','18','19'])->get();
-
         foreach($elements as $e){
             if($e->cost != 0){
                 $NSRU = ((2*$e->quantity)-((1-$SP)/$e->intensity));
                 $CIMSRU = $CIMSRU + ($e->cost*$NSRU);
             }
         }
-        foreach($elements as $e){
-            if($e->cost != 0){
-                $CIMSRU = $CIMSRU + ($e->cost*$NSRU);
-            }
-        }
+
         $CIM = $CIMFS + $CIMFW + $CIMSRU;
 
         $result = array('CIM'=>$CIM,
@@ -129,28 +146,55 @@ class CostsController extends Controller
         return $result;
     }
 
-    public function calculateCYO(){
+    public function calculateCYO($request){
         $CSD = 5000;
         $SP = 0.01;
         $MLD = 0;
+        $value = $request['indicator'];
+        $equipment = $request['equipment_id'];
+        $levels = array();
 
-        $elements = ElementCost::whereIn('level',['7','8','9','10'
-            ,'11','12','13','14','15','16','17','18','19'])->get();
+        if($equipment == 1){
+            $levels = array(7,8,9);
+        }elseif($equipment == 2){
+            $levels = array(3,10);
+        }elseif($equipment == 3){
+            $levels = array(4,11,12);
+        }elseif($equipment == 4){
+            $levels = array(5,13,14,15,16,17,18,19);
+        }
+
+        $elements = array();
+        foreach($levels as $l){
+            $elementsPrev = ElementCost::where('level',$l)->get();
+            foreach($elementsPrev as $prev){
+                if($prev->cost != 0){
+                    $elements[] = $prev;
+                }
+            }
+        }
+
         $TAT      = LLC::where('slug','TAT')->first();
 
         foreach($elements as $e){
             if($e->cost != 0){
                 $NSRU = ((2*$e->quantity)-((1-$SP)/$e->intensity));
                 $MWT = $SP * ($TAT->value/($NSRU+1));
-                $MLD = $MLD + (($e->intensity*$MWT)/$e->intensity);
+                $MLD = $MLD + (($e->intensity*$MWT));
             }
         }
+        $NSRU = 0;
+        foreach($elements as $e){
+            $NSRU = $NSRU +$e->intensity;
+        }
+        $MLD = $MLD / $NSRU;
 
         $MRT = LLC::where('slug','MRT')->first();
         $MTD = LLC::where('slug','MTD')->first();
         $MAD = LLC::where('slug','MAD')->first();
 
         $MTTR = $MLD + $MRT->value + $MTD->value + $MAD->value;
+
         $miu  = 1/$MTTR;
         $correctiveMaintenances = CorrectiveReparation::all();
         $hours = 0;
@@ -167,40 +211,56 @@ class CostsController extends Controller
         }
 
         $MADTCS = $hours * $sumA;
-        $CYOU = (5*($MADTCS)*($CSD/1000))/10;
+
+        $CYOU = (5*($MADTCS)*($CSD/1000));
 
         return $CYOU;
     }
 
-    public function calculateCYM($value){
+    public function calculateCYM($request){
         /*CYM = CYMP + CYMC*/
         $MCMP = 3;
         $CPH  = 15;
         $CYMP = 0;
+        $value = $request['indicator'];
+        $equipment = $request['equipment_id'];
+        $levels = array();
 
-        $elements = ElementCost::whereIn('level',['7','8','9','10'
-            ,'11','12','13','14','15','16','17','18','19'])->get();
+        if($equipment == 1){
+            $levels = array(7,8,9);
+        }elseif($equipment == 2){
+            $levels = array(3,10);
+        }elseif($equipment == 3){
+            $levels = array(4,11,12);
+        }elseif($equipment == 4){
+            $levels = array(5,13,14,15,16,17,18,19);
+        }
+
+        $elements = array();
+        foreach($levels as $l){
+            $elementsPrev = ElementCost::where('level',$l)->get();
+            foreach($elementsPrev as $prev){
+                if($prev->cost != 0){
+                    $elements[] = $prev;
+                }
+            }
+        }
+
         $hours = 0;
         foreach($elements as $e){
-            $name = strtoupper($e->name);
+                        $preventive = PreventiveReparation::where('sub_system_id', $e->sub_system_id)->get();
+                        if (!empty($preventive)) {
+                            foreach ($preventive as $prev) {
+                                if ($prev->status == 1) {
+                                    $hours = $hours + $prev->duration_time;
+                                }
+                            }
+                        }
 
-            $subSystem = SubSystem::where('name','like','%'.$name.'%')->first();
-            if(!empty($subSystem)){
-                $preventive = PreventiveReparation::where('sub_system_id',$subSystem->id)->get();
-
-                if(!empty($preventive)){
-                   foreach($preventive as $prev){
-                       if($prev->status == 1){
-                            $hours = $hours + $prev->duration_time;
-                       }
-                   }
-                }
-                $hours  = $hours * 10;
-                $CYMPRU = ($MCMP/$CPH)*($value)*($e->cost)+$hours;
-                $CYMP   = $CYMP + ($e->cost+ $CYMPRU);
-                $hours  = 0;
-            }
-
+                        $hours = $hours * 10;
+                        $CYMPRU = ((($MCMP / $CPH) * ($value)) * ($e->cost)) + $hours;
+                        $CYMP = $CYMP + ($e->cost + $CYMPRU);
+                        $hours = 0;
         }
 
         $CYCMS = 0;
@@ -219,11 +279,8 @@ class CostsController extends Controller
 
         $MCH = 0;
         foreach($elements as $e){
-            $name = strtoupper($e->name);
 
-            $subSystem = SubSystem::where('name','like','%'.$name.'%')->first();
-            if(!empty($subSystem)) {
-                $corrective = CorrectiveReparation::where('sub_system_id', $subSystem->id)->get();
+                $corrective = CorrectiveReparation::where('sub_system_id', $e->sub_system_id)->get();
                 if(!empty($corrective)){
                     foreach($corrective as $prev){
                         if($prev->status == 1){
@@ -231,15 +288,11 @@ class CostsController extends Controller
                         }
                     }
                 }
-            }
-        }
-
-        foreach($elements as $e){
             $CYMCW = $CYMCW + ($NCMA->value*$MCH*$CPH+($NCMA->value+$e->cost));
         }
 
         $CYMC = $CYMCW + $CYCMS;
-        $CYMC = $CYMC / 10;
+        $CYMC = $CYMC;
         $CYM = $CYMP + $CYMC;
         $result = array(
             'CYM'  => $CYM,

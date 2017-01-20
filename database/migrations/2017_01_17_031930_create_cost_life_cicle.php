@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateCostLifeCicle extends Migration
 {
@@ -12,6 +13,7 @@ class CreateCostLifeCicle extends Migration
      */
     public function up()
     {
+
         Schema::create('llc', function (Blueprint $table) {
             $table->increments('id');
 

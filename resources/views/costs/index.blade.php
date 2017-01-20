@@ -10,7 +10,7 @@
             <div class="col-md-11 col-md-offset-2">
                 <div class="row">
                     <div id="contract" class="">
-                        <h4 class="text-center">Costo de Ciclo de Vida</h4>
+                        <h4 class="text-center">Coste de Ciclo de Vida</h4>
                         <br><br>
                         <p class="text-center">Para continuar por favor ingrese el siguiente valor:</p>
                         <br><br>
@@ -18,6 +18,33 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                             <label for="indicator">Número de unidades reemplazables en el periodo de estudio (10 años):</label>
                             <input type="text" placeholder="10" name="indicator" id="indicator" required>
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <label for="equipment">Equipo</label>
+                                    <select name="equipment_id" id="equipment_id" class="form-control">
+                                        <option value="">Equipo</option>
+                                        @foreach($equipments as $equipment)
+                                            <option value="{{$equipment->id}}">{{$equipment->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-6">
+                                    <label for="date1">Fecha inicial</label>
+                                    <input class="form-control datepicker" size="16" type="text" value="" name="date1" id="date1" required>
+                                    <span class="add-on"><i class="icon-th"></i></span>
+                                    <br>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="time1">Fecha final</label>
+                                    <input class="form-control datepicker2" size="16" type="text" value="" name="time1" id="time1" required>
+                                    <span class="add-on"><i class="icon-th"></i></span>
+                                    <br>
+                                </div>
+                            </div>
+
                             <button class="btn btn-primary">Continuar</button>
                         </form>
                     </div>
@@ -54,5 +81,21 @@
 @section('extrajs')
     <script>
 
+        $('.datepicker').datetimepicker({
+            format: 'DD-MM-YYYY',
+
+        });
+        $('.datepicker2').datetimepicker({
+            format: 'DD-MM-YYYY'
+        });
+
+        $(".datepicker").on("dp.change", function (e) {
+            $('.datepicker2').data("DateTimePicker").minDate(e.date);
+            $(this).attr('value', e.date.format('DD-MM-YYYY'));
+        });
+        $(".datepicker2").on("dp.change", function (e) {
+            $('.datepicker').data("DateTimePicker").maxDate(e.date);
+            $(this).attr('value', e.date.format('DD-MM-YYYY'));
+        });
     </script>
 @endsection

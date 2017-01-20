@@ -12,6 +12,7 @@ return array(
     'AddStatusToFaultsTable' => $baseDir . '/database/migrations/2016_10_01_170630_add_status_to_faults_table.php',
     'AddStatusToPreventivesReparations' => $baseDir . '/database/migrations/2016_09_17_175603_add_status_to_preventives_reparations.php',
     'AddSubSystemIdToMaintenances' => $baseDir . '/database/migrations/2016_06_21_204819_add_sub_system_id_to_maintenances.php',
+    'AddSubSystemToCostElementTable' => $baseDir . '/database/migrations/2017_01_18_011308_add_sub_system_to_cost_element_table.php',
     'AddSystemIdToMaintenances' => $baseDir . '/database/migrations/2016_06_21_204811_add_system_id_to_maintenances.php',
     'CodificationsTableSeeder' => $baseDir . '/database/seeds/CodificationsTableSeeder.php',
     'ContractServicesSeed' => $baseDir . '/database/seeds/ContractServicesSeed.php',

@@ -299,6 +299,7 @@ class ComposerStaticInit3316e759a89f9d1165f294eb4af1877e
         'AddStatusToFaultsTable' => __DIR__ . '/../..' . '/database/migrations/2016_10_01_170630_add_status_to_faults_table.php',
         'AddStatusToPreventivesReparations' => __DIR__ . '/../..' . '/database/migrations/2016_09_17_175603_add_status_to_preventives_reparations.php',
         'AddSubSystemIdToMaintenances' => __DIR__ . '/../..' . '/database/migrations/2016_06_21_204819_add_sub_system_id_to_maintenances.php',
+        'AddSubSystemToCostElementTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_18_011308_add_sub_system_to_cost_element_table.php',
         'AddSystemIdToMaintenances' => __DIR__ . '/../..' . '/database/migrations/2016_06_21_204811_add_system_id_to_maintenances.php',
         'CodificationsTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CodificationsTableSeeder.php',
         'ContractServicesSeed' => __DIR__ . '/../..' . '/database/seeds/ContractServicesSeed.php',

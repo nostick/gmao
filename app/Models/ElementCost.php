@@ -13,7 +13,11 @@ class ElementCost extends Model
         'slug',
         'required',
         'quantity',
+        'cost',
+        'intensity',
         'created_at',
-        'updated_at'];
+        'updated_at',
+        'system_id',
+        'sub_system_id'];
 
 }

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
+use Illuminate\Support\Facades\DB;
 class CreateIndicatorsTable extends Migration
 {
     /**
@@ -12,6 +12,8 @@ class CreateIndicatorsTable extends Migration
      */
     public function up()
     {
+
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::create('indicators', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('equipment_id')->unsigned()->nullable();
@@ -29,6 +31,7 @@ class CreateIndicatorsTable extends Migration
 
             $table->timestamps();
         });
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 
     /**

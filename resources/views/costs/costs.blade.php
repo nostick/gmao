@@ -10,7 +10,7 @@
             <div class="col-md-11 col-md-offset-2">
                 <div class="row">
                     <div id="contract" class="">
-                        <h4 class="text-center">Costo de Ciclo de Vida</h4>
+                        <h4 class="text-center">Coste de Ciclo de Vida</h4>
                         <br><br>
 
                         <div class="col-lg-4">
