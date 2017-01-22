@@ -12,7 +12,30 @@
                 <div class="panel-heading">Bienvenido {{Auth::user()->name}}</div>
 
                 <div class="panel-body">
-                    Esta es el Dashboard de GMAO
+                    <h4 class="text-center">
+                        Mantenimientos preventivos proximos a realizarse
+                    </h4>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            @foreach($alarms as $key => $alarm)
+                            <div class="col-lg-6">
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                        {{$alarm->reparation}}
+                                    </div>
+                                    <div class="panel-body">
+                                        <p>
+                                            Este mantenimiento tiene una frecuencia: {{$maintenances[$key]->frecuency}}
+                                            <br><br>
+                                            Su ultimo mantenimiento preventivo fue realizado hace: {{$diff[$key]}} dias
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <br><br><br><br><br><br><br><br><br><br><br><br>
