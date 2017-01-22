@@ -25,10 +25,28 @@
                                     </div>
                                     <div class="panel-body">
                                         <p>
-                                            Este mantenimiento tiene una frecuencia: {{$maintenances[$key]->frecuency}}
+                                            <b class="text-danger"> Equipo: </b>{{$alarm->equipment->name}} <br>
+                                            <b class="text-danger">Sistema: </b>{{$alarm->system->name}} <br>
+                                            <b class="text-danger">Sub-Sistema: </b>{{$alarm->subSystem->name}}<br>
+                                            <b class="text-danger">Mantenimiento: </b>{{$alarm->reparation}}
                                             <br><br>
-                                            Su ultimo mantenimiento preventivo fue realizado hace: {{$diff[$key]}} dias
+                                            Este mantenimiento tiene una frecuencia:
+                                                <b class="text-danger">
+                                                    {{$maintenances[$key]->frecuency}}
+                                                </b>
+                                            <br><br>
+                                            Su ultimo mantenimiento preventivo fue realizado hace:
+                                                <b class="text-danger">
+                                                  {{$diff[$key]}}
+                                                </b>
+                                                dias
                                         </p>
+                                        <div class="text-center">
+                                        <a href="{{route('register.preventive') }}"
+                                           class="btn btn-md btn-danger">
+                                            Realizar mantenimiento
+                                        </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
