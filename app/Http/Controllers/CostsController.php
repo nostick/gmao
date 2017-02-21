@@ -12,6 +12,7 @@ use App\Models\System;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\DB;
 
 class CostsController extends Controller
 {
@@ -47,10 +48,12 @@ class CostsController extends Controller
         $CIM   = $this->calculateCIM($request);
         $CYO   = $this->calculateCYO($request);
         $CYM   = $this->calculateCYM($request);
+        $table = DB::table('references_values')->get();
         return view('costs.costs')
             ->with('CIM',$CIM)
             ->with('CYO',$CYO)
-            ->with('CYM',$CYM);
+            ->with('CYM',$CYM)
+            ->with('table',$table);
     }
 
     /**

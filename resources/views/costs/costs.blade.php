@@ -11,6 +11,13 @@
                 <div class="row">
                     <div id="contract" class="">
                         <h4 class="text-center">Coste de Ciclo de Vida</h4>
+
+                        <button type="button"
+                                class="btn btn-danger btn-lg center-block center-container text-center"
+                                data-toggle="modal"
+                                data-target="#table_modal">
+                            <span class="ion-clipboard" >  Detalle de Costes</span>
+                        </button>
                         <br><br>
 
                         <div class="col-lg-4">
@@ -85,6 +92,7 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
         </form>
     </div>
+    @include('costs.modals.tableModal')
 @endsection
 
 @section('extrajs')
