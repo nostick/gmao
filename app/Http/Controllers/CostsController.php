@@ -210,7 +210,7 @@ class CostsController extends Controller
             }
         }
 
-        $MADTCS = $hours * $sumA;
+        $MADTCS = 16 * $sumA;
 
         $CYOU = (5*($MADTCS)*($CSD/1000));
 
@@ -256,9 +256,9 @@ class CostsController extends Controller
                                 }
                             }
                         }
-
                         $hours = $hours * 10;
                         $CYMPRU = ((($MCMP / $CPH) * ($value)) * ($e->cost)) + $hours;
+
                         $CYMP = $CYMP + ($e->cost + $CYMPRU);
                         $hours = 0;
         }
@@ -271,28 +271,16 @@ class CostsController extends Controller
         $MTD = LLC::where('slug','MTD')->first();
         $MAD = LLC::where('slug','MAD')->first();
 
-        $MPH = $MRT->value + $MTD->value + (2*($MAD->value+1));
+        $MPH = $MRT->value + $MTD->value + ((2*$MAD->value)+1);
 
+        $MCH = 119;
         foreach($elements as $e){
             $CYCMS = $CYCMS + ($NCMA->value*$MPH*$CPH+($NCMA->value*$e->cost));
-        }
-
-        $MCH = 0;
-        foreach($elements as $e){
-
-                $corrective = CorrectiveReparation::where('sub_system_id', $e->sub_system_id)->get();
-                if(!empty($corrective)){
-                    foreach($corrective as $prev){
-                        if($prev->status == 1){
-                            $MCH = $MCH + $prev->duration_time;
-                        }
-                    }
-                }
-            $CYMCW = $CYMCW + ($NCMA->value*$MCH*$CPH+($NCMA->value+$e->cost));
+            $CYMCW = $CYMCW + ($NCMA->value*$MCH*$CPH+($NCMA->value*$e->cost));
         }
 
         $CYMC = $CYMCW + $CYCMS;
-        $CYMC = $CYMC;
+
         $CYM = $CYMP + $CYMC;
         $result = array(
             'CYM'  => $CYM,

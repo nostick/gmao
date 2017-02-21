@@ -30,6 +30,33 @@
 
 
                     </div>
+                    <div class="col-md-12" style="color: #9A0000">
+                        @if($CYM['CYMC'] > $CYM['CYMP'])
+                            <blockquote>
+                            <p>
+                                El coste de
+
+                                mantenimiento correctivo es mayor al coste de mantenimiento preventivo por lo que se recomienda
+
+                                a la coordinación hacer un análisis de la vida útil del equipo y de la curva de la bañera para definir
+
+                                la etapa en la que se encuentra el equipo y su utilización en la empresa
+                            </p>
+                                </blockquote>
+                        @else
+                            <blockquote>
+                            <p>
+                                &quot;El coste de
+
+                                mantenimiento preventivo es mayor al coste de mantenimiento correctivo por lo que se recomienda
+
+                                a la coordinación redefinir el plan de mantenimiento en cuanto a la frecuencia de mantenimiento
+
+                                preventivo para establecer si su realización es crítica o despreciable para los equipos&quot;
+                            </p>
+                                </blockquote>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
